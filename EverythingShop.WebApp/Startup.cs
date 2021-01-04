@@ -37,16 +37,9 @@ namespace EverythingShop.WebApp
             if (!context.Database.CanConnect())
             {
                 context.Database.Migrate();
+                EverithingShopDbInitData.InitializeWithSampleData(context);
             }
-            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            //{
-            //    var context = serviceScope.ServiceProvider.GetRequiredService<EverythingShopContext>();
-            //    if (!context.Database.CanConnect())
-            //    {
-            //        //context.Database.EnsureCreated();
-            //        context.Database.Migrate();
-            //    }
-            //}
+            EverithingShopDbInitData.InitializeWithSampleData(context); // TODO: Remove initializing
 
             if (env.IsDevelopment())
             {
