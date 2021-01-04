@@ -37,9 +37,7 @@ namespace EverythingShop.WebApp
             if (!context.Database.CanConnect())
             {
                 context.Database.Migrate();
-                EverithingShopDbInitData.InitializeWithSampleData(context);
             }
-            EverithingShopDbInitData.InitializeWithSampleData(context); // TODO: Remove initializing
 
             if (env.IsDevelopment())
             {
