@@ -32,8 +32,22 @@ namespace EverythingShop.WebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, EverythingShopContext context)
         {
+            if (!context.Database.CanConnect())
+            {
+                context.Database.Migrate();
+            }
+            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    var context = serviceScope.ServiceProvider.GetRequiredService<EverythingShopContext>();
+            //    if (!context.Database.CanConnect())
+            //    {
+            //        //context.Database.EnsureCreated();
+            //        context.Database.Migrate();
+            //    }
+            //}
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
