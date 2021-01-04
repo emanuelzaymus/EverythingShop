@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Hello World List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Hello from our View Template!</p>
+
+<ul>
+
+    @for (int i = 0; i < (int)ViewData["NumTimes"]; i++)
+    {
+        <li>@ViewData["Message"]</li>
+    }
+
+</ul>
