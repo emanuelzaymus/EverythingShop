@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 
 namespace EverythingShop.WebApp.Data
 {
@@ -12,10 +13,10 @@ namespace EverythingShop.WebApp.Data
             using (var context = new EverythingShopContext(
                 serviceProvider.GetRequiredService<DbContextOptions<EverythingShopContext>>()))
             {
-                //if (context.MainCategories.Any())
-                //{
-                //    return;
-                //}
+                if (context.MainCategories.Any())
+                {
+                    return;
+                }
 
                 // Remove all
                 context.Products.RemoveRange(context.Products);

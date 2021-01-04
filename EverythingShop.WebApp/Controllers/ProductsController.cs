@@ -20,11 +20,53 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string mainCategory, string subCategory, string searchString)
         {
-            var everythingShopContext = _context.Products.Include(p => p.SubCategory);
-            return View(await everythingShopContext.ToListAsync());
+            var products = _context.Products
+                .Include(p => p.SubCategory)
+                .Include(p => p.SubCategory.MainCategory)
+                .Select(p => p);
+
+            if (!string.IsNullOrEmpty(mainCategory))
+            {
+                products = products.Where(p => p.SubCategory.MainCategory.Name == mainCategory);
+            }
+
+            if (!string.IsNullOrEmpty(subCategory))
+            {
+                products = products.Where(p => p.SubCategory.Name == subCategory);
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(p => p.Name.Contains(searchString));
+            }
+
+            SearchProductViewModel ret = new SearchProductViewModel()
+            {
+                MainCategories = new SelectList(await _context.MainCategories.Select(mc => mc.Name).Distinct().ToListAsync()),
+                SubCategories = new SelectList(await _context.SubCategories.Select(mc => mc.Name).Distinct().ToListAsync()),
+                Products = await products.ToListAsync(),
+                MainCategory = mainCategory,
+                SubCategory = subCategory,
+                SearchString = searchString
+            };
+
+            return View(ret);
         }
+
+        //// GET: Products
+        //public async Task<IActionResult> Index(string searchString)
+        //{
+        //    var products = _context.Products.Include(p => p.SubCategory).Select(p => p);
+
+        //    if (!string.IsNullOrEmpty(searchString))
+        //    {
+        //        products = products.Where(p => p.Name.Contains(searchString));
+        //    }
+
+        //    return View(await products.ToListAsync());
+        //}
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)

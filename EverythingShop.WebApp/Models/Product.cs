@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EverythingShop.WebApp.Models
 {
@@ -22,7 +23,7 @@ namespace EverythingShop.WebApp.Models
         [DataType(DataType.ImageUrl)]
         public string Picture { get; set; }
 
-        [Required, DataType(DataType.Currency)]
+        [Required, Column(TypeName = "decimal(18.2)")]
         public decimal Price { get; set; }
 
         public SubCategory SubCategory { get; set; }
