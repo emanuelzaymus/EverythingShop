@@ -23,7 +23,7 @@ namespace EverythingShop.WebApp.Models
         [DataType(DataType.ImageUrl)]
         public string Picture { get; set; }
 
-        [Required, Column(TypeName = "decimal(18.2)")]
+        [Required]
         public decimal Price { get; set; }
 
         public SubCategory SubCategory { get; set; }
