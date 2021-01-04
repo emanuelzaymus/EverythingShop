@@ -11,10 +11,10 @@ namespace EverythingShop.WebApp.Models
         [Key]
         public int Id { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required, MaxLength(50), MinLength(3)]
         public string Name { get; set; }
 
-        [Required, MaxLength(50), EmailAddress]
+        [Required, MaxLength(50), MinLength(5), EmailAddress]
         public string Email { get; set; }
 
         [Required, DataType(DataType.Password)]

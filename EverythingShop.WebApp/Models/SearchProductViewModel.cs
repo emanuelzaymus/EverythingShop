@@ -9,10 +9,15 @@ namespace EverythingShop.WebApp.Models
     public class SearchProductViewModel
     {
         public SelectList MainCategories { get; set; }
+
         public SelectList SubCategories { get; set; }
+
         public List<Product> Products { get; set; }
+
         public int? MainCategory { get; set; }
+
         public int? SubCategory { get; set; }
+
         public string SearchString { get; set; }
     }
 }

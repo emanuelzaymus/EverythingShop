@@ -15,19 +15,19 @@ namespace EverythingShop.WebApp.Models
         [Required]
         public int CustomerId { get; set; }
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50), MinLength(3)]
         public string ContactName { get; set; }
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50), MinLength(3)]
         public string StreetAddress { get; set; }
 
-        [Required, StringLength(10), DataType(DataType.PostalCode)]
+        [Required, MaxLength(10), MinLength(3), DataType(DataType.PostalCode)]
         public string PostalCode { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20), MinLength(3)]
         public string City { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20), MinLength(3)]
         public string Country { get; set; }
 
         [Required, DataType(DataType.DateTime)]

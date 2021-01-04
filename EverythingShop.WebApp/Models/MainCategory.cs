@@ -11,7 +11,7 @@ namespace EverythingShop.WebApp.Models
         [Key]
         public int Id { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required, MaxLength(50), MinLength(3)]
         public string Name { get; set; }
 
         [DataType(DataType.ImageUrl)]

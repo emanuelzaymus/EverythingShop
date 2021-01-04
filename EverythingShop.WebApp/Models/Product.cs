@@ -15,7 +15,7 @@ namespace EverythingShop.WebApp.Models
         [Required]
         public int SubCategoryId { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required, MaxLength(50), MinLength(3)]
         public string Name { get; set; }
 
         public string Description { get; set; }
