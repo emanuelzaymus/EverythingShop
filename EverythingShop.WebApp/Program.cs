@@ -23,7 +23,7 @@ namespace EverythingShop.WebApp
 
                 try
                 {
-                    EverythingShopDbInitData.InitializeWithSampleData(services);
+                    AppDbInitData.InitializeWithSampleData(services);
                 }
                 catch (Exception ex)
                 {

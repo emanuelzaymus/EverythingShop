@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace EverythingShop.WebApp.Data
 {
-    public static class EverythingShopDbInitData
+    public static class AppDbInitData
     {
         internal static void InitializeWithSampleData(IServiceProvider serviceProvider)
         {

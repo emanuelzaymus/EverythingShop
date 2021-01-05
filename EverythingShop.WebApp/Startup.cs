@@ -27,9 +27,6 @@ namespace EverythingShop.WebApp
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-            //services.AddDbContext<EverythingShopContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("EverythingShopContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,5 +58,6 @@ namespace EverythingShop.WebApp
                 endpoints.MapRazorPages();
             });
         }
+
     }
 }
