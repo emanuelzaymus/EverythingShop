@@ -10,7 +10,7 @@ namespace EverythingShop.WebApp.Models
     public class OrderProduct
     {
         [Key]
-        public int CustomerOrderId { get; set; }
+        public int UserOrderId { get; set; }
 
         [/*Key,*/ Required]
         public int ProductId { get; set; }
@@ -18,7 +18,7 @@ namespace EverythingShop.WebApp.Models
         [Required]
         public int Quantity { get; set; } = 1;
 
-        public virtual CustomerOrder CustomerOrder { get; set; }
+        public virtual UserOrder UserOrder { get; set; }
         public virtual Product Product { get; set; }
     }
 }

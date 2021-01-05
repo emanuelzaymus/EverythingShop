@@ -13,7 +13,7 @@ namespace EverythingShop.WebApp.Data
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<CustomerOrder> CustomerOrders { get; set; }
+        public DbSet<UserOrder> CustomerOrders { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
 
         public EverythingShopContext(DbContextOptions<EverythingShopContext> options) : base(options)
@@ -22,7 +22,7 @@ namespace EverythingShop.WebApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderProduct>().HasKey(nameof(OrderProduct.CustomerOrderId), nameof(OrderProduct.ProductId));
+            modelBuilder.Entity<OrderProduct>().HasKey(nameof(OrderProduct.UserOrderId), nameof(OrderProduct.ProductId));
 
             base.OnModelCreating(modelBuilder);
         }

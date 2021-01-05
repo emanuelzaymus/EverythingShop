@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EverythingShop.WebApp.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace EverythingShop.WebApp.Models
 {
-    public class CustomerOrder
+    public class UserOrder
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public int CustomerId { get; set; }
+        public string UserId { get; set; }
 
         [Required, MaxLength(50), MinLength(3)]
         public string ContactName { get; set; }
@@ -33,7 +34,7 @@ namespace EverythingShop.WebApp.Models
         [Required, DataType(DataType.DateTime)]
         public DateTime CreatedOn { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public virtual AppUser User { get; set; }
         public virtual List<OrderProduct> OrderProducts { get; set; }
     }
 }

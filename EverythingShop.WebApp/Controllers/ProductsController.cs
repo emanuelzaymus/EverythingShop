@@ -12,9 +12,9 @@ namespace EverythingShop.WebApp.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly EverythingShopContext _context;
+        private readonly AppDbContext _context;
 
-        public ProductsController(EverythingShopContext context)
+        public ProductsController(AppDbContext context)
         {
             _context = context;
         }

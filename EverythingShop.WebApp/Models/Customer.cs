@@ -20,6 +20,6 @@ namespace EverythingShop.WebApp.Models
         [Required, DataType(DataType.Password)]
         public string EncryptedPassword { get; set; }
 
-        public virtual List<CustomerOrder> CustomerOrders { get; set; }
+        public virtual List<UserOrder> CustomerOrders { get; set; }
     }
 }

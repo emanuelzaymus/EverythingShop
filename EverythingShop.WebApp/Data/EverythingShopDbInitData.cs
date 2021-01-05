@@ -10,8 +10,8 @@ namespace EverythingShop.WebApp.Data
     {
         internal static void InitializeWithSampleData(IServiceProvider serviceProvider)
         {
-            using (var context = new EverythingShopContext(
-                serviceProvider.GetRequiredService<DbContextOptions<EverythingShopContext>>()))
+            using (var context = new AppDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>()))
             {
                 if (context.MainCategories.Any())
                 {
