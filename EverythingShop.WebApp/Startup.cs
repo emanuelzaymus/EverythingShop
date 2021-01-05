@@ -26,6 +26,7 @@ namespace EverythingShop.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddDbContext<EverythingShopContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("EverythingShopContext")));
@@ -54,6 +55,7 @@ namespace EverythingShop.WebApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -61,6 +63,7 @@ namespace EverythingShop.WebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
