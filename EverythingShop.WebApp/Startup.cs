@@ -28,18 +28,13 @@ namespace EverythingShop.WebApp
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddDbContext<EverythingShopContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("EverythingShopContext")));
+            //services.AddDbContext<EverythingShopContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("EverythingShopContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, EverythingShopContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (!context.Database.CanConnect())
-            {
-                context.Database.Migrate();
-            }
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
