@@ -35,12 +35,34 @@ namespace EverythingShop.WebApp.Controllers
 
             SearchProductViewModel ret = new SearchProductViewModel()
             {
-                MainCategories = new SelectList(await _context.MainCategories.ToListAsync(), nameof(MainCategory.Id), nameof(MainCategory.Name)),
+                AllCategories = await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(),
+                MainCategories = new SelectList(await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(), nameof(MainCategory.Id), nameof(MainCategory.Name)),
                 SubCategories = new SelectList(await _context.SubCategories.ToListAsync(), nameof(SubCategory.Id), nameof(SubCategory.Name)),
                 Products = await products.ToListAsync(),
                 MainCategory = mainCategory,
                 SubCategory = subCategory,
                 SearchString = searchString
+            };
+
+            return View(ret);
+        }
+
+        public async Task<IActionResult> MyMethod(string subCat)
+        {
+            int subCategory = -1;
+            int.TryParse(subCat, out subCategory);
+
+            var products = _context.Products.Where(p => p.SubCategoryId == subCategory).Include(p => p.SubCategory).Select(p => p);
+
+            SearchProductViewModel ret = new SearchProductViewModel()
+            {
+                AllCategories = await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(),
+                MainCategories = new SelectList(await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(), nameof(MainCategory.Id), nameof(MainCategory.Name)),
+                SubCategories = new SelectList(await _context.SubCategories.ToListAsync(), nameof(SubCategory.Id), nameof(SubCategory.Name)),
+                Products = await products.ToListAsync(),
+                MainCategory = null,
+                SubCategory = subCategory,
+                SearchString = null
             };
 
             return View(ret);

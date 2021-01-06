@@ -8,6 +8,8 @@ namespace EverythingShop.WebApp.Models
 {
     public class SearchProductViewModel
     {
+        public List<MainCategory> AllCategories { get; set; }
+
         public SelectList MainCategories { get; set; }
 
         public SelectList SubCategories { get; set; }
