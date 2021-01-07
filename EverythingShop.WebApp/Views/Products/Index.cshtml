@@ -6,6 +6,18 @@
 
 <h1>All Products</h1>
 
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Products" asp-action="Index" method="get">
+    <p>
+        <input type="number" name="SubCategoryId" value="@Model.SubCategoryId" style="display: none">
+        Product Name: <input type="text" name="SearchString" value="@Model.SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <div class="row">
 
     <div class="accordion col-md-3 p-1" id="all-products-accordion">
@@ -15,7 +27,8 @@
             <div class="card">
                 <div class="card-header" id="heading-@index">
                     <h2 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-@index" aria-expanded="false" aria-controls="collapse-@index">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-@index"
+                                aria-expanded="true" aria-controls="collapse-@index">
                             @mainCategory.Name
                         </button>
                     </h2>
@@ -26,10 +39,7 @@
                             @foreach (var subCategory in mainCategory.SubCategories)
                             {
                                 <li class="list-group-item">
-                                    <button type="button" class="btn btn-link" value="@subCategory.Id"
-                                            asp-action="MyMethod">
-                                        @subCategory.Name
-                                    </button>
+                                    <a asp-action="Index" asp-route-subCategoryId="@subCategory.Id">@subCategory.Name</a>
                                 </li>
                             }
                         </ul>
@@ -72,23 +82,7 @@
 
 </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-controller="Products" asp-action="Index" method="get">
-    <p>
-        Main Category: <select asp-for="MainCategory" asp-items="Model.MainCategories">
-            <option value="">All</option>
-        </select>
 
-        Sub Category: <select asp-for="SubCategory" asp-items="Model.SubCategories">
-            <option value="">All</option>
-        </select>
-
-        Product Name: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
-</form>
 @*<table class="table">
         <thead>
             <tr>

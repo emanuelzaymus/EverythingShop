@@ -20,15 +20,14 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(int? mainCategory, int? subCategory, string searchString)
+        public async Task<IActionResult> Index(int? subCategoryId, string searchString)
         {
+            //ViewData["searchS"] = searchString;
+            //ViewBag.Pupu = searchString;
             var products = _context.Products.Include(p => p.SubCategory).Select(p => p);
 
-            if (mainCategory != null)
-                products = products.Where(p => p.SubCategory.MainCategoryId == mainCategory);
-
-            if (subCategory != null)
-                products = products.Where(p => p.SubCategoryId == subCategory);
+            if (subCategoryId.HasValue)
+                products = products.Where(p => p.SubCategoryId == subCategoryId.Value);
 
             if (!string.IsNullOrEmpty(searchString))
                 products = products.Where(p => p.Name.Contains(searchString));
@@ -36,33 +35,9 @@ namespace EverythingShop.WebApp.Controllers
             SearchProductViewModel ret = new SearchProductViewModel()
             {
                 AllCategories = await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(),
-                MainCategories = new SelectList(await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(), nameof(MainCategory.Id), nameof(MainCategory.Name)),
-                SubCategories = new SelectList(await _context.SubCategories.ToListAsync(), nameof(SubCategory.Id), nameof(SubCategory.Name)),
                 Products = await products.ToListAsync(),
-                MainCategory = mainCategory,
-                SubCategory = subCategory,
+                SubCategoryId = subCategoryId,
                 SearchString = searchString
-            };
-
-            return View(ret);
-        }
-
-        public async Task<IActionResult> MyMethod(string subCat)
-        {
-            int subCategory = -1;
-            int.TryParse(subCat, out subCategory);
-
-            var products = _context.Products.Where(p => p.SubCategoryId == subCategory).Include(p => p.SubCategory).Select(p => p);
-
-            SearchProductViewModel ret = new SearchProductViewModel()
-            {
-                AllCategories = await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(),
-                MainCategories = new SelectList(await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(), nameof(MainCategory.Id), nameof(MainCategory.Name)),
-                SubCategories = new SelectList(await _context.SubCategories.ToListAsync(), nameof(SubCategory.Id), nameof(SubCategory.Name)),
-                Products = await products.ToListAsync(),
-                MainCategory = null,
-                SubCategory = subCategory,
-                SearchString = null
             };
 
             return View(ret);

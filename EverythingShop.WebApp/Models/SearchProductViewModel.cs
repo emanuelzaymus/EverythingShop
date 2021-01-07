@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EverythingShop.WebApp.Models
 {
@@ -10,15 +6,9 @@ namespace EverythingShop.WebApp.Models
     {
         public List<MainCategory> AllCategories { get; set; }
 
-        public SelectList MainCategories { get; set; }
-
-        public SelectList SubCategories { get; set; }
-
         public List<Product> Products { get; set; }
 
-        public int? MainCategory { get; set; }
-
-        public int? SubCategory { get; set; }
+        public int? SubCategoryId { get; set; }
 
         public string SearchString { get; set; }
     }
