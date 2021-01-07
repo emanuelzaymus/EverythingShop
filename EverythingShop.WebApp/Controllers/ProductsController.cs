@@ -20,14 +20,18 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(int? subCategoryId, string searchString)
+        public async Task<IActionResult> Index(int? subCategoryId, int? priceFrom, int? priceTo, string searchString)
         {
-            //ViewData["searchS"] = searchString;
-            //ViewBag.Pupu = searchString;
             var products = _context.Products.Include(p => p.SubCategory).Select(p => p);
 
             if (subCategoryId.HasValue)
                 products = products.Where(p => p.SubCategoryId == subCategoryId.Value);
+
+            if (priceFrom.HasValue)
+                products = products.Where(p => p.Price >= priceFrom.Value);
+
+            if (priceTo.HasValue)
+                products = products.Where(p => p.Price <= priceTo.Value);
 
             if (!string.IsNullOrEmpty(searchString))
                 products = products.Where(p => p.Name.Contains(searchString));
@@ -36,10 +40,8 @@ namespace EverythingShop.WebApp.Controllers
             {
                 AllCategories = await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(),
                 Products = await products.ToListAsync(),
-                SubCategoryId = subCategoryId,
-                SearchString = searchString
+                SubCategoryId = subCategoryId
             };
-
             return View(ret);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EverythingShop.WebApp.Models
 {
@@ -10,6 +11,13 @@ namespace EverythingShop.WebApp.Models
 
         public int? SubCategoryId { get; set; }
 
+        [Display(Name = "Price From")]
+        public int? PriceFrom { get; set; }
+
+        [Display(Name = "Price To")]
+        public int? PriceTo { get; set; }
+
+        [Display(Name = "Search products")]
         public string SearchString { get; set; }
     }
 }

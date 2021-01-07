@@ -10,14 +10,6 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<form asp-controller="Products" asp-action="Index" method="get">
-    <p>
-        <input type="number" name="SubCategoryId" value="@Model.SubCategoryId" style="display: none">
-        Product Name: <input type="text" name="SearchString" value="@Model.SearchString">
-        <input type="submit" value="Filter" />
-    </p>
-</form>
-
 <div class="row">
 
     <div class="accordion col-md-3 p-1" id="all-products-accordion">
@@ -51,6 +43,26 @@
     </div>
 
     <div class="col-md-9 p-1">
+
+        <form class="form-row" asp-controller="Products" asp-action="Index" method="get">
+            <input type="number" name="SubCategoryId" value="@Model.SubCategoryId" style="display: none">
+            <div class="form-group col-md-2">
+                <label asp-for="@Model.PriceFrom"></label>
+                <input asp-for="@Model.PriceFrom" class="form-control" />
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="@Model.PriceTo"></label>
+                <input asp-for="@Model.PriceTo" class="form-control" />
+            </div>
+            <div class="form-group col-md-7">
+                <label asp-for="@Model.SearchString"></label>
+                <input asp-for="@Model.SearchString" class="form-control" />
+            </div>
+            <div class="form-group col-md-1">
+                <button type="submit" class="btn btn-primary" style="position: absolute; bottom: 0px;">Filter</button>
+            </div>
+        </form>
+
         @foreach (var item in Model.Products)
         {
             <div class="card mb-3">
