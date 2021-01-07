@@ -1,5 +1,6 @@
 using EverythingShop.WebApp.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +24,12 @@ namespace EverythingShop.WebApp
 
                 try
                 {
-                    AppDbInitData.InitializeWithSampleData(services);
+                    using (var context = new AppDbContext(services.GetRequiredService<DbContextOptions<AppDbContext>>()))
+                    {
+                        context.Database.Migrate();
+
+                        AppDbInitData.InitializeWithSampleData(context);
+                    }
                 }
                 catch (Exception ex)
                 {
