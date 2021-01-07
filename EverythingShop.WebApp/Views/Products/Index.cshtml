@@ -66,11 +66,11 @@
         @foreach (var item in Model.Products)
         {
             <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
+                <div class="row m-0">
+                    <div class="col-md-4 p-0">
                         <img class="img-thumbnail" src=@Html.DisplayFor(modelItem => item.Picture)>
                     </div>
-                    <div class="col-md-7 p-1">
+                    <div class="col-md-7 p-0">
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                             <p class="card-text">@Html.DisplayFor(modelItem => item.Price) Eur</p>
@@ -80,10 +80,9 @@
                     <div class="col-md-1 p-1">
                         <div class="card-body p-1">
                             <div>
-                                <button type="button" class="btn btn-primary m-1"><i class="bi bi-cart-plus"></i> </button>
-                            </div>
-                            <div>
+                                <button type="button" class="btn btn-primary m-1"><i class="bi bi-cart-plus"></i></button>
                                 <a href="#" type="button" class="btn btn-primary m-1"><i class="bi bi-cart-dash"></i></a>
+                                <input class="form-control m-1" style="width: 42px" value="0" />
                             </div>
                         </div>
                     </div>
