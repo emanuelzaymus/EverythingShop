@@ -12,35 +12,64 @@
 
 <div class="row">
 
-    <div class="accordion col-md-3 p-1" id="all-products-accordion">
-        @{ int index = 0; }
-        @foreach (var mainCategory in Model.AllCategories)
-        {
-            <div class="card">
-                <div class="card-header" id="heading-@index">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-@index"
-                                aria-expanded="true" aria-controls="collapse-@index">
-                            @mainCategory.Name
-                        </button>
-                    </h2>
-                </div>
-                <div id="collapse-@index" class="collapse" aria-labelledby="heading-@index" data-parent="#all-products-accordion">
-                    <div class="card-body p-0">
-                        <ul class="list-group">
-                            @foreach (var subCategory in mainCategory.SubCategories)
-                            {
-                                <li class="list-group-item">
-                                    <a asp-action="Index" asp-route-subCategoryId="@subCategory.Id">@subCategory.Name</a>
-                                </li>
-                            }
-                        </ul>
+    <div class="col-md-3 p-1">
+        @*<div class="accordion " id="all-products-accordion">
+                @{ int index = 0; }
+                @foreach (var mainCategory in Model.AllCategories)
+                {
+                    <div class="card">
+                        <div class="card-header" id="heading-@index">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-@index"
+                                        aria-expanded="true" aria-controls="collapse-@index">
+                                    @mainCategory.Name
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapse-@index" class="collapse" aria-labelledby="heading-@index" data-parent="#all-products-accordion">
+                            <div class="card-body p-0">
+                                <ul class="list-group">
+                                    @foreach (var subCategory in mainCategory.SubCategories)
+                                    {
+                                        <li class="list-group-item">
+                                            <a asp-action="Index" asp-route-subCategoryId="@subCategory.Id">@subCategory.Name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            index++;
-        }
+                    index++;
+                }
+            </div>*@
+
+        <div class="list-group">
+            @foreach (var mainCategory in Model.AllCategories)
+            {
+                <h5 class="list-group-item">@mainCategory.Name</h5>
+
+                @foreach (var subCategory in mainCategory.SubCategories)
+                {
+                    @if (Model.SubCategoryId.HasValue && Model.SubCategoryId == subCategory.Id)
+                    {
+                        <a type="button" class="list-group-item list-group-item-action btn-primary"
+                           asp-action="Index" asp-route-subCategoryId="@subCategory.Id">
+                            @subCategory.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <a type="button" class="list-group-item list-group-item-action"
+                           asp-action="Index" asp-route-subCategoryId="@subCategory.Id">
+                            @subCategory.Name
+                        </a>
+                    }
+                }
+            }
+        </div>
+
     </div>
+
 
     <div class="col-md-9 p-1">
 
