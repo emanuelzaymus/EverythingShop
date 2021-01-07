@@ -16,23 +16,23 @@ namespace EverythingShop.WebApp.Models
         [Required]
         public string UserId { get; set; }
 
-        [Required, MaxLength(50), MinLength(3)]
+        [MaxLength(50), MinLength(3)]
         public string ContactName { get; set; }
 
-        [Required, MaxLength(50), MinLength(3)]
+        [MaxLength(50), MinLength(3)]
         public string StreetAddress { get; set; }
 
-        [Required, MaxLength(10), MinLength(3), DataType(DataType.PostalCode)]
+        [MaxLength(10), MinLength(3), DataType(DataType.PostalCode)]
         public string PostalCode { get; set; }
 
-        [Required, MaxLength(20), MinLength(3)]
+        [MaxLength(20), MinLength(3)]
         public string City { get; set; }
 
-        [Required, MaxLength(20), MinLength(3)]
+        [MaxLength(20), MinLength(3)]
         public string Country { get; set; }
 
-        [Required, DataType(DataType.DateTime)]
-        public DateTime CreatedOn { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime OrderedOn { get; set; }
 
         public virtual AppUser User { get; set; }
         public virtual List<OrderProduct> OrderProducts { get; set; }

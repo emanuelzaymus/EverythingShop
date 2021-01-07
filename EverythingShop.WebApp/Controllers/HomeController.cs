@@ -1,4 +1,5 @@
-﻿using EverythingShop.WebApp.Models;
+﻿using EverythingShop.WebApp.Data;
+using EverythingShop.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,15 +13,18 @@ namespace EverythingShop.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var radnomProducts = _context.Products.OrderBy(r => Guid.NewGuid()).Take(8).ToList();
+            return View(radnomProducts);
         }
 
         public IActionResult Privacy()
