@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EverythingShop.WebApp.Data;
 using EverythingShop.WebApp.Models;
+using EverythingShop.WebApp.Services;
 
 namespace EverythingShop.WebApp.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserOrdersService _ordersService;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(AppDbContext context, UserOrdersService ordersService)
         {
             _context = context;
+            _ordersService = ordersService;
         }
 
         // GET: Products
@@ -49,19 +52,43 @@ namespace EverythingShop.WebApp.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var product = await _context.Products
-                .Include(p => p.SubCategory)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
-            {
                 return NotFound();
-            }
 
+            ViewData["QuantityOfProduct"] = await _ordersService.GetQuantityOfProductInCart(User, id.Value);
             return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductToCart(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            bool success = await _ordersService.AddProductToCart(User, id.Value);
+
+            if (!success)
+                return NotFound();
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProductFromCart(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            bool success = await _ordersService.RemoveProductFromCart(User, id.Value);
+
+            if (!success)
+                return NotFound();
+
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         // GET: Products/Create

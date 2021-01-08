@@ -1,48 +1,41 @@
 ﻿@model EverythingShop.WebApp.Models.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Picture)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Picture)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubCategory)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubCategory.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container offset-md-1 col-md-10">
+    <div class="row py-3">
+        <div class="col-md-4">
+            <img class="img-fluid" src="@Model.Picture">
+        </div>
+        <div class="col-md-8">
+            <h4 class="p-2">@Model.Name</h4>
+            <h5 class="p-2">@Model.Price Eur</h5>
+            <p class="p-2">@Model.Description</p>
+            <div class="form-inline">
+                <label class="font-weight-bold">In your cart:</label>
+                <input class="form-control mx-2" style="width: 42px" value="@ViewBag.QuantityOfProduct" disabled />
+            </div>
+            <div class="row p-2">
+                <div class="col-md m-2 p-0">
+                    <form asp-controller="Products" asp-action="AddProductToCart" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-primary" style="width: 100%">Add to My Cart</button>
+                    </form>
+                </div>
+                @*<a asp-action="AddProductToCart" asp-route-id="@Model.Id" type="button" class="btn btn-primary col-md m-2" meth>
+                        Add to My Cart
+                    </a>*@
+                <div class="col-md m-2 p-0">
+                    <form asp-controller="Products" asp-action="RemoveProductFromCart" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-primary" style="width: 100%">Remove from My Cart</button>
+                    </form>
+                </div>
+                @*<button href="#" type="button" class="btn btn-primary col-md m-2">Remove from My Cart</button>*@
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
 </div>

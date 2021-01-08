@@ -28,7 +28,7 @@ namespace EverythingShop.WebApp.Controllers
 
         public async Task<IActionResult> Cart()
         {
-            List<OrderProduct> cartContent = await _ordersService.GetCartContent(User);
+            List<OrderProduct> cartContent = (await _ordersService.GetCurrentOrNewOrder(User)).OrderProducts;
             return View(cartContent);
         }
 
@@ -48,18 +48,19 @@ namespace EverythingShop.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteOrder([Bind("Id,UserId,ContactName,StreetAddress,PostalCode,City,Country")] UserOrder order)
         {
-            if (!await _ordersService.IsCurrentOrderAsync(order, User))
+            if (!await _ordersService.IsCurrentOrderAsync(User, order))
                 return NotFound();
 
-            order.OrderedOn = DateTime.Now;
-            order.State = OrderState.Pending;
+            order.OrderedOn = DateTime.Now; // del
+            order.State = OrderState.Pending; // del
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
+                    // TODO: remoake: _orderService.Order(order);
+                    _context.Update(order); // del
+                    await _context.SaveChangesAsync(); // del
                 }
                 catch (DbUpdateConcurrencyException)
                 {

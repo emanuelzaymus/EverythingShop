@@ -23,6 +23,44 @@ namespace EverythingShop.WebApp.Services
             _userManager = userManager;
         }
 
+        internal async Task<int> GetQuantityOfProductInCart(ClaimsPrincipal claims, int productId)
+        {
+            AppUser user = await GetUserAsync(claims);
+            UserOrder userOrder = await GetCurrentOrderAsync(user, includeProducts: true, asNoTracking: true);
+            if (userOrder != null)
+            {
+                OrderProduct orderProduct = userOrder.OrderProducts.Where(op => op.ProductId == productId).FirstOrDefault();
+                if (orderProduct != null)
+                {
+                    return orderProduct.Quantity;
+                }
+            }
+            return 0;
+        }
+
+        internal async Task<bool> AddProductToCart(ClaimsPrincipal claims, int productId)
+        {
+            UserOrder userOrder = await GetCurrentOrNewOrder(claims);
+            OrderProduct orderProduct = userOrder.OrderProducts.Where(op => op.ProductId == productId).FirstOrDefault();
+            if (orderProduct != null)
+            {
+                orderProduct.Quantity++;
+            }
+            else
+            {
+                if (await _context.Products.AnyAsync(p => p.Id == productId))
+                    userOrder.OrderProducts.Add(new OrderProduct() { ProductId = productId, Quantity = 1 });
+                else
+                    return false;
+            }
+            return await _context.SaveChangesAsync() >= 1;
+        }
+
+        internal async Task<bool> RemoveProductFromCart(ClaimsPrincipal claims, int productId)
+        {
+            throw new NotImplementedException();
+        }
+
         internal async Task<UserOrder> GetCurrentOrder(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);
@@ -38,7 +76,7 @@ namespace EverythingShop.WebApp.Services
                 .Include(o => o.OrderProducts).ThenInclude(x => x.Product).ToListAsync();
         }
 
-        internal async Task<List<OrderProduct>> GetCartContent(ClaimsPrincipal claims)
+        internal async Task<UserOrder> GetCurrentOrNewOrder(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);
             var currentOrder = await GetCurrentOrderAsync(user, includeProducts: true);
@@ -47,10 +85,10 @@ namespace EverythingShop.WebApp.Services
                 await CreateNewOrderAsync(user);
                 currentOrder = await GetCurrentOrderAsync(user, includeProducts: true);
             }
-            return currentOrder.OrderProducts;
+            return currentOrder;
         }
 
-        internal async Task<bool> IsCurrentOrderAsync(UserOrder order, ClaimsPrincipal claims)
+        internal async Task<bool> IsCurrentOrderAsync(ClaimsPrincipal claims, UserOrder order)
         {
             if (order != null)
             {
@@ -63,7 +101,7 @@ namespace EverythingShop.WebApp.Services
 
         private async Task CreateNewOrderAsync(AppUser user)
         {
-            EntityEntry<UserOrder> u = await _context.UserOrders.AddAsync(new UserOrder() { User = user });
+            await _context.UserOrders.AddAsync(new UserOrder() { User = user });
             if (await _context.SaveChangesAsync() < 1)
             {
                 throw new Exception("New UserOrder was not saved.");
