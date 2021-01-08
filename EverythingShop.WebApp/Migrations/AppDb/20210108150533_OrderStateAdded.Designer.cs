@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EverythingShop.WebApp.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210107185518_UserOrder-OrderOnColumn-Nullable")]
-    partial class UserOrderOrderOnColumnNullable
+    [Migration("20210108150533_OrderStateAdded")]
+    partial class OrderStateAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -199,12 +199,15 @@ namespace EverythingShop.WebApp.Migrations.AppDb
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("OrderedOn")
+                    b.Property<DateTime?>("OrderedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PostalCode")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("State")
+                        .HasColumnType("int");
 
                     b.Property<string>("StreetAddress")
                         .HasMaxLength(50)

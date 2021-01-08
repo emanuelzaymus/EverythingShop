@@ -31,10 +31,15 @@ namespace EverythingShop.WebApp.Models
         [MaxLength(20), MinLength(3)]
         public string Country { get; set; }
 
+        [Display(Name = "Ordered On")]
         [DataType(DataType.DateTime)]
-        public DateTime OrderedOn { get; set; }
+        public DateTime? OrderedOn { get; set; }
+
+        public OrderState? State { get; set; }
 
         public virtual AppUser User { get; set; }
         public virtual List<OrderProduct> OrderProducts { get; set; }
+
+        public decimal TotalPrice => OrderProducts.Sum(p => p.Quantity * p.Product.Price);
     }
 }

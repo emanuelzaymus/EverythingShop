@@ -1,0 +1,50 @@
+﻿@model EverythingShop.WebApp.Models.UserOrder
+
+@{
+    ViewData["Title"] = "Complete Order";
+}
+
+<h1>Complete Order</h1>
+<hr />
+
+<div class="row">
+    <div class="offset-md-3 col-md-6">
+        <form asp-controller="UserOrders" asp-action="CompleteOrder" method="post">
+            <input asp-for="UserId" value="@Model.UserId" style="display: none" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ContactName" class="control-label"></label>
+                <input asp-for="ContactName" class="form-control" required />
+                <span asp-validation-for="ContactName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StreetAddress" class="control-label"></label>
+                <input asp-for="StreetAddress" class="form-control" required />
+                <span asp-validation-for="StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" required />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" required />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" required />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit Order" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
