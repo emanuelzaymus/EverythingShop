@@ -59,14 +59,16 @@ namespace EverythingShop.WebApp.Controllers
             if (product == null)
                 return NotFound();
 
-            ViewData["QuantityOfProduct"] = await _ordersService.GetQuantityOfProductInCart(User, id.Value);
+            ViewData["QuantityOfProduct"] = User.Identity.IsAuthenticated
+                ? await _ordersService.GetQuantityOfProductInCart(User, id.Value) : 0;
+
             return View(product);
         }
 
         [HttpPost]
         public async Task<int> AddProductToCart(int? productId)
         {
-            if (productId == null)
+            if (productId == null && User.Identity.IsAuthenticated)
                 return -1;
 
             return await _ordersService.AddProductToCart(User, productId.Value);
@@ -75,7 +77,7 @@ namespace EverythingShop.WebApp.Controllers
         [HttpPost]
         public async Task<int> RemoveProductFromCart(int? productId)
         {
-            if (productId == null)
+            if (productId == null && User.Identity.IsAuthenticated)
                 return -1;
 
             return await _ordersService.RemoveProductFromCart(User, productId.Value);
