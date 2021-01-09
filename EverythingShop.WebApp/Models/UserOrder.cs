@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EverythingShop.WebApp.Models
 {
@@ -40,6 +38,6 @@ namespace EverythingShop.WebApp.Models
         public virtual AppUser User { get; set; }
         public virtual List<OrderProduct> OrderProducts { get; set; }
 
-        public decimal TotalPrice => OrderProducts.Sum(p => p.Quantity * p.Product.Price);
+        public decimal GetTotalPrice() => OrderProducts.Sum(op => op.Quantity * op.Product.Price);
     }
 }

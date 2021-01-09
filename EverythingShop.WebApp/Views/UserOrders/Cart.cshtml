@@ -62,7 +62,7 @@
 
     <div class="row">
         <div class="col-6 font-weight-bolder">
-            Total Price: @Model.TotalPrice Eur
+            Total Price: @Model.GetTotalPrice() Eur
         </div>
         <div class="col-6 text-right">
             <a class="btn btn-primary" asp-controller="UserOrders" asp-action="CompleteOrder">Complete This Order</a>
