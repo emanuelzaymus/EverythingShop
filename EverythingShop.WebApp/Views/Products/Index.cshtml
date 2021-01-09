@@ -70,7 +70,7 @@
                             <img class="img-thumbnail" src="@product.Picture">
                         </a>
                     </div>
-                    <div class="col-md-7 p-0">
+                    <div class="col-md-8 p-0">
                         <div class="card-body">
                             <a asp-action="Details" asp-route-id="@product.Id">
                                 <h5 class="card-title">@product.Name</h5>
@@ -79,7 +79,7 @@
                             <p class="card-text"><small class="text-muted">@product.Description</small></p>
                         </div>
                     </div>
-                    <div class="col-md-1 p-1">
+                    @*<div class="col-md-1 p-1">
                         <div class="card-body p-1">
                             <div>
                                 <button type="button" class="btn btn-primary m-1"><i class="bi bi-cart-plus"></i></button>
@@ -87,7 +87,7 @@
                                 <input class="form-control m-1" style="width: 42px" value="0" />
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         }

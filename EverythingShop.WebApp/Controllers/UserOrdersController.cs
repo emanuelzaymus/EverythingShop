@@ -34,7 +34,7 @@ namespace EverythingShop.WebApp.Controllers
 
         public async Task<IActionResult> CompleteOrder()
         {
-            UserOrder order = await _ordersService.GetCurrentOrder(User);
+            UserOrder order = await _ordersService.GetCurrentOrderWithoutProducts(User);
             if (order == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace EverythingShop.WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if ((await _ordersService.GetCurrentOrder(User)) == null)
+                    if ((await _ordersService.GetCurrentOrderWithoutProducts(User)) == null)
                     {
                         return NotFound();
                     }

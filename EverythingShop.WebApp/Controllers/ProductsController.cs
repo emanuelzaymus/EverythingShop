@@ -83,10 +83,7 @@ namespace EverythingShop.WebApp.Controllers
             if (id == null)
                 return NotFound();
 
-            bool success = await _ordersService.RemoveProductFromCart(User, id.Value);
-
-            if (!success)
-                return NotFound();
+            await _ordersService.RemoveProductFromCart(User, id.Value);
 
             return RedirectToAction(nameof(Details), new { id });
         }

@@ -58,10 +58,25 @@ namespace EverythingShop.WebApp.Services
 
         internal async Task<bool> RemoveProductFromCart(ClaimsPrincipal claims, int productId)
         {
-            throw new NotImplementedException();
+            AppUser user = await GetUserAsync(claims);
+            UserOrder userOrder = await GetCurrentOrderAsync(user, includeProducts: true, asNoTracking: false);
+            if (userOrder != null)
+            {
+                OrderProduct orderProduct = userOrder.OrderProducts.Where(op => op.ProductId == productId).FirstOrDefault();
+                if (orderProduct != null)
+                {
+                    if (orderProduct.Quantity <= 1)
+                        userOrder.OrderProducts.Remove(orderProduct);
+                    else
+                        orderProduct.Quantity--;
+
+                    return await _context.SaveChangesAsync() >= 1;
+                }
+            }
+            return false;
         }
 
-        internal async Task<UserOrder> GetCurrentOrder(ClaimsPrincipal claims)
+        internal async Task<UserOrder> GetCurrentOrderWithoutProducts(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);
             return await GetCurrentOrderAsync(user, includeProducts: false);
