@@ -23,6 +23,15 @@ namespace EverythingShop.WebApp.Services
             _userManager = userManager;
         }
 
+        internal async Task CompleteOrder(UserOrder order)
+        {
+            order.OrderedOn = DateTime.Now;
+            order.State = OrderState.Pending;
+
+            _context.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
         internal async Task<int> GetQuantityOfProductInCart(ClaimsPrincipal claims, int productId)
         {
             AppUser user = await GetUserAsync(claims);
@@ -119,9 +128,18 @@ namespace EverythingShop.WebApp.Services
             {
                 AppUser user = await GetUserAsync(claims);
                 UserOrder currentOrder = await GetCurrentOrderAsync(user, includeProducts: false, asNoTracking: true);
-                return order.Id == currentOrder.Id;
+
+                return currentOrder != null && order.Id == currentOrder.Id;
             }
             return false;
+        }
+
+        internal async Task<bool> IsCurrentOrderEmpty(ClaimsPrincipal claims)
+        {
+            AppUser user = await GetUserAsync(claims);
+            UserOrder currentOrder = await GetCurrentOrderAsync(user, includeProducts: true, asNoTracking: true);
+
+            return currentOrder == null || currentOrder.OrderProducts.Count == 0;
         }
 
         private async Task CreateNewOrderAsync(AppUser user)

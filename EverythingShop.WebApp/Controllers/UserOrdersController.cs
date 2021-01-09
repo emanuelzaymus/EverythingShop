@@ -50,20 +50,14 @@ namespace EverythingShop.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteOrder([Bind("Id,UserId,ContactName,StreetAddress,PostalCode,City,Country")] UserOrder order)
         {
-            // TODO: if the order is empty return NotFound();
-            if (!await _ordersService.IsCurrentOrderAsync(User, order))
+            if (!await _ordersService.IsCurrentOrderAsync(User, order) || await _ordersService.IsCurrentOrderEmpty(User))
                 return NotFound();
-
-            order.OrderedOn = DateTime.Now; // del
-            order.State = OrderState.Pending; // del
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // TODO: remoake: _orderService.Order(order);
-                    _context.Update(order); // del
-                    await _context.SaveChangesAsync(); // del
+                    await _ordersService.CompleteOrder(order);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -76,6 +70,18 @@ namespace EverythingShop.WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(order);
+        }
+
+        [HttpPost]
+        public async Task<string> SetOrderDelivered(int? orderId)
+        {
+            if (orderId.HasValue)
+            {
+                // TODO: undone...
+                //return await _ordersService.SetOrderDelivered(User, orderId.value);
+                return OrderState.Delivered.ToString();
+            }
+            return null;
         }
 
     }
