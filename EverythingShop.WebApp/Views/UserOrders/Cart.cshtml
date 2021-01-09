@@ -16,26 +16,42 @@
 }
 
 <div class="offset-md-1 col-md-10">
-    @foreach (var item in Model)
+    @foreach (var orderProduct in Model)
     {
         <div class="card mb-3">
             <div class="row m-0">
                 <div class="col-md-4 p-0">
-                    <img class="img-thumbnail" src=@Html.DisplayFor(modelItem => item.Product.Picture)>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.Product.Id">
+                        <img class="img-thumbnail" src="@orderProduct.Product.Picture">
+                    </a>
                 </div>
-                <div class="col-md-7 p-0">
+                <div class="col-md-8 p-0">
                     <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Product.Name)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Product.Price) Eur</p>
-                        <p class="card-text"><small class="text-muted">@Html.DisplayFor(modelItem => item.Product.Description)</small></p>
-                    </div>
-                </div>
-                <div class="col-md-1 p-1">
-                    <div class="card-body p-1">
-                        <div>
-                            <button type="button" class="btn btn-primary m-1"><i class="bi bi-cart-plus"></i></button>
-                            <a href="#" type="button" class="btn btn-primary m-1"><i class="bi bi-cart-dash"></i></a>
-                            <input class="form-control m-1" style="width: 42px" value="@item.Quantity" />
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.Product.Id">
+                            <h5 class="card-title">@orderProduct.Product.Name</h5>
+                        </a>
+                        <p class="card-text">@orderProduct.Product.Price Eur</p>
+                        <p class="card-text"><small class="text-muted">@orderProduct.Product.Description</small></p>
+
+                        <div class="form-inline px-2">
+                            <label class="font-weight-bold">In your cart:</label>
+                            <input class="form-control mx-2" style="width: 42px" value="@orderProduct.Quantity" disabled />
+                        </div>
+                        <div class="container row m-0 p-0">
+
+                            <div class="col-md m-2 p-0">
+                                <form asp-controller="Products" asp-action="AddProductToCart" asp-route-id="@orderProduct.Product.Id"
+                                      asp-route-returnUrl="@Url.Action("Cart", "UserOrders")" method="post">
+                                    <button type="submit" class="btn btn-primary w-100">Add to My Cart</button>
+                                </form>
+                            </div>
+                            <div class="col-md m-2 p-0">
+                                <form asp-controller="Products" asp-action="RemoveProductFromCart" asp-route-id="@orderProduct.Product.Id"
+                                      asp-route-returnUrl="@Url.Action("Cart", "UserOrders")" method="post">
+                                    <button type="submit" class="btn btn-primary w-100">Remove from My Cart</button>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>

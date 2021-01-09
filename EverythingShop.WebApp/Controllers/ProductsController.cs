@@ -64,7 +64,7 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProductToCart(int? id)
+        public async Task<IActionResult> AddProductToCart(int? id, string returnUrl = null)
         {
             if (id == null)
                 return NotFound();
@@ -74,17 +74,25 @@ namespace EverythingShop.WebApp.Controllers
             if (!success)
                 return NotFound();
 
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
             return RedirectToAction(nameof(Details), new { id });
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveProductFromCart(int? id)
+        public async Task<IActionResult> RemoveProductFromCart(int? id, string returnUrl = null)
         {
             if (id == null)
                 return NotFound();
 
             await _ordersService.RemoveProductFromCart(User, id.Value);
 
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
             return RedirectToAction(nameof(Details), new { id });
         }
 
