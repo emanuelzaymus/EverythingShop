@@ -13,11 +13,14 @@
                 var product = Model[4 * i + j];
                 <div class="col-md-3 p-2">
                     <div class="card">
-                        <img src="@product.Picture" class="card-img-top img-thumbnail" style="width: 100%; max-height:250px;">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                            <img src="@product.Picture" class="card-img-top img-fluid" /> @*style="width: 100%; max-height:250px;">*@
+                        </a>
                         <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                                <h5 class="card-title">@product.Name</h5>
+                            </a>
                             <p class="card-text">@product.Price Eur</p>
-                            @*<p class="card-text"><small class="text-muted">@product.Description</small></p>*@
                         </div>
                     </div>
                 </div>
