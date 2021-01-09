@@ -28,7 +28,7 @@ namespace EverythingShop.WebApp.Controllers
 
         public async Task<IActionResult> Cart()
         {
-            List<OrderProduct> cartContent = (await _ordersService.GetCurrentOrNewOrder(User)).OrderProducts;
+            UserOrder cartContent = (await _ordersService.GetCurrentOrNewOrder(User));
             return View(cartContent);
         }
 
@@ -48,6 +48,7 @@ namespace EverythingShop.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteOrder([Bind("Id,UserId,ContactName,StreetAddress,PostalCode,City,Country")] UserOrder order)
         {
+            // TODO: if the order is empty return NotFound();
             if (!await _ordersService.IsCurrentOrderAsync(User, order))
                 return NotFound();
 

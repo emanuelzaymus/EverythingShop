@@ -1,4 +1,4 @@
-﻿@model List<OrderProduct>
+﻿@model UserOrder
 
 @{
     ViewData["Title"] = "Your Cart";
@@ -7,7 +7,7 @@
 <h1>Your Cart</h1>
 <hr />
 
-@if (Model.Count == 0)
+@if (Model.OrderProducts.Count == 0)
 {
     <div class="text-center">
         <h5>Nothing in the Cart.</h5>
@@ -16,7 +16,7 @@
 }
 
 <div class="offset-md-1 col-md-10">
-    @foreach (var orderProduct in Model)
+    @foreach (var orderProduct in Model.OrderProducts)
     {
         <div class="card mb-3">
             <div class="row m-0">
@@ -42,6 +42,7 @@
                             <div class="col-md m-2 p-0">
                                 <form asp-controller="Products" asp-action="AddProductToCart" asp-route-id="@orderProduct.Product.Id"
                                       asp-route-returnUrl="@Url.Action("Cart", "UserOrders")" method="post">
+                                    @* TODO: try to make only localy *@
                                     <button type="submit" class="btn btn-primary w-100">Add to My Cart</button>
                                 </form>
                             </div>
@@ -59,7 +60,12 @@
         </div>
     }
 
-    <div>
-        <a class="btn btn-primary" asp-controller="UserOrders" asp-action="CompleteOrder">Complete This Order</a>
+    <div class="row">
+        <div class="col-6 font-weight-bolder">
+            Total Price: @Model.TotalPrice Eur
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-primary" asp-controller="UserOrders" asp-action="CompleteOrder">Complete This Order</a>
+        </div>
     </div>
 </div>
