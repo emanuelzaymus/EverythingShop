@@ -21,13 +21,13 @@
         <div class="card mb-3">
             <div class="row m-0">
                 <div class="col-md-4 p-0">
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.Product.Id">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.ProductId">
                         <img class="img-thumbnail" src="@orderProduct.Product.Picture">
                     </a>
                 </div>
                 <div class="col-md-8 p-0">
                     <div class="card-body">
-                        <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.Product.Id">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.ProductId">
                             <h5 class="card-title">@orderProduct.Product.Name</h5>
                         </a>
                         <p class="card-text">@orderProduct.Product.Price Eur</p>
@@ -35,21 +35,22 @@
 
                         <div class="form-inline px-2">
                             <label class="font-weight-bold">In your cart:</label>
-                            <input class="form-control mx-2" style="width: 42px" value="@orderProduct.Quantity" disabled />
+                            <input id="quantity-of-product-@orderProduct.ProductId" class="form-control mx-2"
+                                   style="width: 42px" value="@orderProduct.Quantity" disabled />
                         </div>
                         <div class="container row m-0 p-0">
 
                             <div class="col-md m-2 p-0">
-                                <form asp-controller="Products" asp-action="AddProductToCart" asp-route-id="@orderProduct.Product.Id"
-                                      asp-route-returnUrl="@Url.Action("Cart", "UserOrders")" method="post">
-                                    <button type="submit" class="btn btn-primary w-100">Add to My Cart</button>
-                                </form>
+                                <button type="button" class="btn btn-primary w-100"
+                                        onclick="addProductToCart(@orderProduct.ProductId, 'quantity-of-product-@orderProduct.ProductId')">
+                                    Add to My Cart
+                                </button>
                             </div>
                             <div class="col-md m-2 p-0">
-                                <form asp-controller="Products" asp-action="RemoveProductFromCart" asp-route-id="@orderProduct.Product.Id"
-                                      asp-route-returnUrl="@Url.Action("Cart", "UserOrders")" method="post">
-                                    <button type="submit" class="btn btn-primary w-100">Remove from My Cart</button>
-                                </form>
+                                <button type="button" class="btn btn-primary w-100"
+                                        onclick="removeProductFromCart(@orderProduct.ProductId, 'quantity-of-product-@orderProduct.ProductId')">
+                                    Remove from My Cart
+                                </button>
                             </div>
 
                         </div>

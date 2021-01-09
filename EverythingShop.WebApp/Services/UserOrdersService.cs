@@ -38,7 +38,7 @@ namespace EverythingShop.WebApp.Services
             return 0;
         }
 
-        internal async Task<bool> AddProductToCart(ClaimsPrincipal claims, int productId)
+        internal async Task<int> AddProductToCart(ClaimsPrincipal claims, int productId)
         {
             UserOrder userOrder = await GetCurrentOrNewOrder(claims);
             OrderProduct orderProduct = userOrder.OrderProducts.Where(op => op.ProductId == productId).FirstOrDefault();
@@ -46,20 +46,24 @@ namespace EverythingShop.WebApp.Services
             {
                 orderProduct.Quantity++;
             }
-            else
+            else if (await _context.Products.AnyAsync(p => p.Id == productId))
             {
-                if (await _context.Products.AnyAsync(p => p.Id == productId))
-                    userOrder.OrderProducts.Add(new OrderProduct() { ProductId = productId, Quantity = 1 });
-                else
-                    return false;
+                orderProduct = new OrderProduct() { ProductId = productId, Quantity = 1 };
+                userOrder.OrderProducts.Add(orderProduct);
             }
-            return await _context.SaveChangesAsync() >= 1;
+            else return -1;
+
+            await _context.SaveChangesAsync();
+            return orderProduct.Quantity;
         }
 
-        internal async Task<bool> RemoveProductFromCart(ClaimsPrincipal claims, int productId)
+        internal async Task<int> RemoveProductFromCart(ClaimsPrincipal claims, int productId)
         {
+            int newQuantity = 0;
+
             AppUser user = await GetUserAsync(claims);
             UserOrder userOrder = await GetCurrentOrderAsync(user, includeProducts: true, asNoTracking: false);
+
             if (userOrder != null)
             {
                 OrderProduct orderProduct = userOrder.OrderProducts.Where(op => op.ProductId == productId).FirstOrDefault();
@@ -68,12 +72,12 @@ namespace EverythingShop.WebApp.Services
                     if (orderProduct.Quantity <= 1)
                         userOrder.OrderProducts.Remove(orderProduct);
                     else
-                        orderProduct.Quantity--;
+                        newQuantity = --orderProduct.Quantity;
 
-                    return await _context.SaveChangesAsync() >= 1;
+                    await _context.SaveChangesAsync();
                 }
             }
-            return false;
+            return newQuantity;
         }
 
         internal async Task<UserOrder> GetCurrentOrderWithoutProducts(ClaimsPrincipal claims)

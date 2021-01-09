@@ -64,56 +64,21 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProductToCart(int? id, string returnUrl = null)
-        {
-            if (id == null)
-                return NotFound();
-
-            bool success = await _ordersService.AddProductToCart(User, id.Value);
-
-            if (!success)
-                return NotFound();
-
-            if (returnUrl != null)
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction(nameof(Details), new { id });
-        }
-
-        [HttpPost]
-        public async Task<int> AddProductToCart2(int? productId)
+        public async Task<int> AddProductToCart(int? productId)
         {
             if (productId == null)
                 return -1;
 
-            await _ordersService.AddProductToCart(User, productId.Value);
-            return await _ordersService.GetQuantityOfProductInCart(User, productId.Value);
+            return await _ordersService.AddProductToCart(User, productId.Value);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveProductFromCart(int? id, string returnUrl = null)
-        {
-            if (id == null)
-                return NotFound();
-
-            await _ordersService.RemoveProductFromCart(User, id.Value);
-
-            if (returnUrl != null)
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction(nameof(Details), new { id });
-        }
-
-        [HttpPost]
-        public async Task<int> RemoveProductFromCart2(int? productId)
+        public async Task<int> RemoveProductFromCart(int? productId)
         {
             if (productId == null)
                 return -1;
 
-            await _ordersService.RemoveProductFromCart(User, productId.Value);
-            return await _ordersService.GetQuantityOfProductInCart(User, productId.Value);
+            return await _ordersService.RemoveProductFromCart(User, productId.Value);
         }
 
         // GET: Products/Create

@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 
 function addProductToCart(prodId, quantityElemId) {
-    $.post("/Products/AddProductToCart2",
+    $.post("/Products/AddProductToCart",
         { productId: prodId },
         function (newProductQuantity) {
             updateElementValue(quantityElemId, newProductQuantity);
@@ -13,7 +13,7 @@ function addProductToCart(prodId, quantityElemId) {
 }
 
 function removeProductFromCart(prodId, quantityElemId) {
-    $.post("/Products/RemoveProductFromCart2",
+    $.post("/Products/RemoveProductFromCart",
         { productId: prodId },
         function (newProductQuantity) {
             updateElementValue(quantityElemId, newProductQuantity);
