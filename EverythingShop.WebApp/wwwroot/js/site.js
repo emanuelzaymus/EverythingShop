@@ -2,3 +2,25 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+function addProductToCart(prodId, quantityElemId) {
+    $.post("/Products/AddProductToCart2",
+        { productId: prodId },
+        function (newProductQuantity) {
+            updateElementValue(quantityElemId, newProductQuantity);
+        }
+    );
+}
+
+function removeProductFromCart(prodId, quantityElemId) {
+    $.post("/Products/RemoveProductFromCart2",
+        { productId: prodId },
+        function (newProductQuantity) {
+            updateElementValue(quantityElemId, newProductQuantity);
+        }
+    );
+}
+
+function updateElementValue(elemId, newValue) {
+    $('#' + elemId).val(newValue);
+}

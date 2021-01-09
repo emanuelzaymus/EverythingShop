@@ -15,23 +15,19 @@
             <p class="p-2">@Model.Description</p>
             <div class="form-inline">
                 <label class="font-weight-bold">In your cart:</label>
-                <input class="form-control mx-2" style="width: 42px" value="@ViewBag.QuantityOfProduct" disabled />
+                <input id="quantity-of-products" class="form-control mx-2" style="width: 42px" value="@ViewBag.QuantityOfProduct" disabled />
             </div>
             <div class="row p-2">
                 <div class="col-md m-2 p-0">
-                    <form asp-controller="Products" asp-action="AddProductToCart" asp-route-id="@Model.Id" method="post">
-                        <button type="submit" class="btn btn-primary w-100">Add to My Cart</button>
-                    </form>
-                </div>
-                @*<a asp-action="AddProductToCart" asp-route-id="@Model.Id" type="button" class="btn btn-primary col-md m-2" meth>
+                    <button type="button" class="btn btn-primary w-100" onclick="addProductToCart(@Model.Id, 'quantity-of-products')">
                         Add to My Cart
-                    </a>*@
-                <div class="col-md m-2 p-0">
-                    <form asp-controller="Products" asp-action="RemoveProductFromCart" asp-route-id="@Model.Id" method="post">
-                        <button type="submit" class="btn btn-primary w-100">Remove from My Cart</button>
-                    </form>
+                    </button>
                 </div>
-                @*<button href="#" type="button" class="btn btn-primary col-md m-2">Remove from My Cart</button>*@
+                <div class="col-md m-2 p-0">
+                    <button type="button" class="btn btn-primary w-100" onclick="removeProductFromCart(@Model.Id, 'quantity-of-products')">
+                        Remove
+                    </button>
+                </div>
             </div>
         </div>
     </div>

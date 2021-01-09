@@ -42,7 +42,6 @@
                             <div class="col-md m-2 p-0">
                                 <form asp-controller="Products" asp-action="AddProductToCart" asp-route-id="@orderProduct.Product.Id"
                                       asp-route-returnUrl="@Url.Action("Cart", "UserOrders")" method="post">
-                                    @* TODO: try to make only localy *@
                                     <button type="submit" class="btn btn-primary w-100">Add to My Cart</button>
                                 </form>
                             </div>

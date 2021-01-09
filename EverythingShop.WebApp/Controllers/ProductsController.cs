@@ -82,6 +82,16 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         [HttpPost]
+        public async Task<int> AddProductToCart2(int? productId)
+        {
+            if (productId == null)
+                return -1;
+
+            await _ordersService.AddProductToCart(User, productId.Value);
+            return await _ordersService.GetQuantityOfProductInCart(User, productId.Value);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> RemoveProductFromCart(int? id, string returnUrl = null)
         {
             if (id == null)
@@ -94,6 +104,16 @@ namespace EverythingShop.WebApp.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        public async Task<int> RemoveProductFromCart2(int? productId)
+        {
+            if (productId == null)
+                return -1;
+
+            await _ordersService.RemoveProductFromCart(User, productId.Value);
+            return await _ordersService.GetQuantityOfProductInCart(User, productId.Value);
         }
 
         // GET: Products/Create
