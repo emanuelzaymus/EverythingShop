@@ -34,8 +34,8 @@ namespace EverythingShop.WebApp.Controllers
 
         public async Task<IActionResult> CompleteOrder()
         {
-            UserOrder order = await _ordersService.GetCurrentOrderWithoutProducts(User);
-            if (order == null)
+            UserOrder order = await _ordersService.GetCurrentOrderWithProducts(User);
+            if (order == null || order.OrderProducts.Count == 0)
             {
                 return NotFound();
             }

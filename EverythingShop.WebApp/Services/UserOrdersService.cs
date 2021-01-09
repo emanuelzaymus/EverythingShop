@@ -82,6 +82,12 @@ namespace EverythingShop.WebApp.Services
             return await GetCurrentOrderAsync(user, includeProducts: false);
         }
 
+        internal async Task<UserOrder> GetCurrentOrderWithProducts(ClaimsPrincipal claims)
+        {
+            var user = await GetUserAsync(claims);
+            return await GetCurrentOrderAsync(user, includeProducts: true);
+        }
+
         internal async Task<List<UserOrder>> GetFinishedOrders(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);

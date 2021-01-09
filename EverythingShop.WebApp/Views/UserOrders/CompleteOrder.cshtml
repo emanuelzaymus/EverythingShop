@@ -7,14 +7,6 @@
 <h1>Complete Order</h1>
 <hr />
 
-@if (Model.OrderProducts.Count == 0)
-{
-    <div class="text-center">
-        <h5>Nothing in the Cart.</h5>
-    </div>
-    return;
-}
-
 <div class="row">
     <div class="offset-md-3 col-md-6">
         <form asp-controller="UserOrders" asp-action="CompleteOrder" method="post">
