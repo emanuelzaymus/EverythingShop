@@ -24,12 +24,7 @@ namespace EverythingShop.WebApp
 
                 try
                 {
-                    using (var context = new AppDbContext(services.GetRequiredService<DbContextOptions<AppDbContext>>()))
-                    {
-                        context.Database.Migrate();
-
-                        AppDbInitData.InitializeWithSampleData(context);
-                    }
+                    AppDbInitData.Initialize(services);
                 }
                 catch (Exception ex)
                 {

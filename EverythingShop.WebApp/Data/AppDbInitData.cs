@@ -1,11 +1,38 @@
 ﻿using EverythingShop.WebApp.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EverythingShop.WebApp.Data
 {
     public static class AppDbInitData
     {
-        internal static void InitializeWithSampleData(AppDbContext context)
+        internal static void Initialize(IServiceProvider services)
+        {
+            using (var context = new AppDbContext(services.GetRequiredService<DbContextOptions<AppDbContext>>()))
+            {
+                context.Database.Migrate();
+
+                InitializeWithSampleData(context);
+
+                RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                CreateRoles(roleManager);
+            }
+        }
+
+        private static void CreateRoles(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
+            {
+                roleManager.CreateAsync(new IdentityRole("Admin")).Wait();
+                Trace.WriteLine("CREATED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+        }
+
+        private static void InitializeWithSampleData(AppDbContext context)
         {
             if (context.MainCategories.Any())
             {

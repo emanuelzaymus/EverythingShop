@@ -32,6 +32,7 @@ namespace EverythingShop.WebApp.Areas.Identity
                         options.Password.RequiredLength = 3;
                         options.Password.RequireNonAlphanumeric = false;
                     })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>();
             });
         }
