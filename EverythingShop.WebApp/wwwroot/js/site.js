@@ -24,3 +24,23 @@ function removeProductFromCart(prodId, quantityElemId) {
 function updateElementValue(elemId, newValue) {
     $('#' + elemId).val(newValue);
 }
+
+function setOrderDelivered(btnId, orderId, orderBadgeElemId) {
+    $.post("/UserOrders/SetOrderDelivered",
+        { orderId: orderId },
+        function (newOrderState) {
+            updateOrderBadge(orderBadgeElemId, newOrderState);
+            disableElement(btnId)
+        }
+    );
+}
+
+function updateOrderBadge(badgeId, newOrderState) {
+    $('#' + badgeId).html(newOrderState)
+        .removeClass("badge-warning")
+        .addClass("badge-success");
+}
+
+function disableElement(elemId) {
+    $('#' + elemId).prop('disabled', true);
+}

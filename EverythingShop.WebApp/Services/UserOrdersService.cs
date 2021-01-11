@@ -23,6 +23,22 @@ namespace EverythingShop.WebApp.Services
             _userManager = userManager;
         }
 
+        internal async Task<string> SetOrderDelivered(ClaimsPrincipal claims, int orderId)
+        {
+            AppUser user = await GetUserAsync(claims);
+            UserOrder userOrder = await _context.UserOrders
+                .Where(o => o.UserId == user.Id && o.Id == orderId && o.State == OrderState.Sent)
+                .FirstOrDefaultAsync();
+
+            if (userOrder != null)
+            {
+                userOrder.State = OrderState.Delivered;
+                await _context.SaveChangesAsync();
+                return OrderState.Delivered.ToString();
+            }
+            return null;
+        }
+
         internal async Task CompleteOrder(UserOrder order)
         {
             order.OrderedOn = DateTime.Now;

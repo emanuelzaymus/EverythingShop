@@ -19,7 +19,12 @@
     @foreach (var order in Model)
     {
         <div class="card mb-3">
-            <h3 class="card-title px-3 pt-3 m-0">Customer Order <span class="badge bg-secondary text-light">@order.State</span></h3>
+            <h3 class="card-title px-3 pt-3 m-0">
+                Customer Order
+                <span id="order-badge-@order.Id" class="badge text-light @(order.State == OrderState.Delivered ? "badge-success" : order.State == OrderState.Sent ? "badge-warning" : "badge-secondary")">
+                    @order.State
+                </span>
+            </h3>
             <div class="row m-0">
                 <div class="col-md-4 p-0">
                     <div class="card-body">
@@ -66,9 +71,22 @@
                     <div class="col-6 font-weight-bolder">
                         Total Price: @order.GetTotalPrice() Eur
                     </div>
-                    <div class="col-6 text-right">
-                        <button type="button" class="btn btn-primary">Delivered</button>
-                    </div>
+                    @if (order.State != OrderState.Delivered)
+                    {
+                        <div class="col-6 text-right">
+                            @if (order.State == OrderState.Sent)
+                            {
+                                <button id="delivered-btn-@order.Id" type="button" class="btn btn-primary"
+                                        onclick="setOrderDelivered('delivered-btn-@order.Id', @order.Id, 'order-badge-@order.Id')">
+                                    Delivered
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary" disabled>Delivered</button>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </div>

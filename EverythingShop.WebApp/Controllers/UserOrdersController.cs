@@ -77,9 +77,7 @@ namespace EverythingShop.WebApp.Controllers
         {
             if (orderId.HasValue)
             {
-                // TODO: undone...
-                //return await _ordersService.SetOrderDelivered(User, orderId.value);
-                return OrderState.Delivered.ToString();
+                return await _ordersService.SetOrderDelivered(User, orderId.Value);
             }
             return null;
         }
