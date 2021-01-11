@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EverythingShop.WebApp.Data;
 using EverythingShop.WebApp.Models;
 using EverythingShop.WebApp.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EverythingShop.WebApp.Controllers
 {
@@ -66,27 +67,33 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<int> AddProductToCart(int? productId)
         {
-            if (productId == null && User.Identity.IsAuthenticated)
+            if (productId == null)
                 return -1;
 
             return await _ordersService.AddProductToCart(User, productId.Value);
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<int> RemoveProductFromCart(int? productId)
         {
-            if (productId == null && User.Identity.IsAuthenticated)
+            if (productId == null)
                 return -1;
 
             return await _ordersService.RemoveProductFromCart(User, productId.Value);
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Name");
+            // TODO: rename to: ViewData["SubCategories"]
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories.Include(sc => sc.MainCategory),
+                "Id", "Name", _context.SubCategories.Select(sc => sc.Id).FirstOrDefault(), "MainCategory");
+
             return View();
         }
 
@@ -95,6 +102,7 @@ namespace EverythingShop.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,SubCategoryId,Name,Description,Picture,Price")] Product product)
         {
             if (ModelState.IsValid)
@@ -108,6 +116,7 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,6 +138,7 @@ namespace EverythingShop.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SubCategoryId,Name,Description,Picture,Price")] Product product)
         {
             if (id != product.Id)
@@ -161,6 +171,7 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -182,6 +193,7 @@ namespace EverythingShop.WebApp.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);

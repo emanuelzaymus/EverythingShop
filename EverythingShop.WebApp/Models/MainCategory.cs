@@ -18,5 +18,10 @@ namespace EverythingShop.WebApp.Models
         public string Picture { get; set; }
 
         public virtual List<SubCategory> SubCategories { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

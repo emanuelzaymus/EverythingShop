@@ -21,6 +21,7 @@ namespace EverythingShop.WebApp.Models
         public string Description { get; set; }
 
         [DataType(DataType.ImageUrl)]
+        [Display(Name = "Picture URL")]
         public string Picture { get; set; }
 
         [Required]
