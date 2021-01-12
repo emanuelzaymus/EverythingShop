@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace EverythingShop.WebApp.Models
 {
-    public class SubCategory
+    public class SubCategory : ICategory
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Main Category")]
         public int MainCategoryId { get; set; }
 
         [Required, MaxLength(50), MinLength(3)]
         public string Name { get; set; }
-
-        [DataType(DataType.ImageUrl)]
-        public string Picture { get; set; }
 
         public virtual MainCategory MainCategory { get; set; }
         public virtual List<Product> Products { get; set; }

@@ -1,0 +1,41 @@
+﻿@model List<MainCategory>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>All Categories</h1>
+<hr />
+
+<p>
+    <div class="row px-2">
+        <div class="col-md-3 m-2 p-0">
+            <a class="btn btn-primary w-100" asp-action="MainCategoryCreate">Add Main Category</a>
+        </div>
+        <div class="col-md-3 m-2 p-0">
+            <a class="btn btn-primary w-100" asp-action="SubCategoryCreate">Add Sub-Category</a>
+        </div>
+    </div>
+</p>
+
+<div class="row">
+    <div class="offset-md-2 col-md-8">
+
+        <div class="list-group">
+            @foreach (var mainCategory in Model)
+            {
+                <a asp-action="MainCategoryDetails" asp-route-id="@mainCategory.Id">
+                    <h4 class="list-group-item">@mainCategory.Name</h4>
+                </a>
+
+                @foreach (var subCategory in mainCategory.SubCategories)
+                {
+                    <a class="list-group-item" style="text-indent: 40px"
+                       asp-action="SubCategoryDetails" asp-route-id="@subCategory.Id">
+                        @subCategory.Name
+                    </a>
+                }
+            }
+        </div>
+    </div>
+</div>

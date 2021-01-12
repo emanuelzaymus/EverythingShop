@@ -1,0 +1,26 @@
+﻿@model EverythingShop.WebApp.Models.ICategory
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<h1>Delete</h1>
+<hr />
+
+<div class="row justify-content-md-center">
+    <div class="container col-md-8">
+
+        <h4 class="text-center my-5">Category <b>@Model.Name</b> is about to be removed with all it's products. Are you sure?</h4>
+
+        <div class="row justify-content-md-end">
+            <div class="col-md-2 m-2 p-0">
+                <a href="#" class="btn btn-primary w-100" onClick="goToPreviousPage()">Back</a>
+            </div>
+            <form class="col-md-2 m-2 p-0" asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Delete" class="btn btn-danger w-100" />
+            </form>
+        </div>
+
+    </div>
+</div>

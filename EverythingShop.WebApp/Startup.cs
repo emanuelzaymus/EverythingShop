@@ -28,6 +28,7 @@ namespace EverythingShop.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<UserOrdersService>();
+            services.AddScoped<CategoriesService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
