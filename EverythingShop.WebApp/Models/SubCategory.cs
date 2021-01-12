@@ -18,6 +18,9 @@ namespace EverythingShop.WebApp.Models
         [Required, MaxLength(50), MinLength(3)]
         public string Name { get; set; }
 
+        [Required]
+        public bool Deleted { get; set; } = false;
+
         public virtual MainCategory MainCategory { get; set; }
         public virtual List<Product> Products { get; set; }
     }

@@ -29,6 +29,9 @@ namespace EverythingShop.WebApp.Models
         [Display(Name = "Price (Eur)")]
         public decimal Price { get; set; }
 
+        [Required]
+        public bool Deleted { get; set; } = false;
+
         [Display(Name = "Category")]
         public SubCategory SubCategory { get; set; }
     }

@@ -59,7 +59,7 @@ namespace EverythingShop.WebApp.Controllers
                 return new SelectList(_context.MainCategories, "Id", "Name", selectedCategoryId.Value);
             }
             return new SelectList(_context.MainCategories, "Id", "Name",
-                 _context.MainCategories.Select(mc => mc.Id).FirstOrDefault());
+                _context.MainCategories.Select(mc => mc.Id).FirstOrDefault());
         }
 
         public IActionResult MainCategoryCreate()
