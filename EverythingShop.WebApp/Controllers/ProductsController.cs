@@ -90,10 +90,7 @@ namespace EverythingShop.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            // TODO: rename to: ViewData["SubCategories"]
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories.Include(sc => sc.MainCategory),
-                "Id", "Name", _context.SubCategories.Select(sc => sc.Id).FirstOrDefault(), "MainCategory");
-
+            ViewData["SubCategories"] = GetSubCategoriesSelectList();
             return View();
         }
 
@@ -111,7 +108,7 @@ namespace EverythingShop.WebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Name", product.SubCategoryId);
+            ViewData["SubCategories"] = GetSubCategoriesSelectList(product.SubCategoryId);
             return View(product);
         }
 
@@ -200,6 +197,17 @@ namespace EverythingShop.WebApp.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private SelectList GetSubCategoriesSelectList(object selectedValue = null)
+        {
+            if (selectedValue != null)
+            {
+                return new SelectList(_context.SubCategories.Include(sc => sc.MainCategory),
+                "Id", "Name", selectedValue, "MainCategory");
+            }
+            return new SelectList(_context.SubCategories.Include(sc => sc.MainCategory),
+                "Id", "Name", _context.SubCategories.Select(sc => sc.Id).FirstOrDefault(), "MainCategory");
         }
 
         private bool ProductExists(int id)
