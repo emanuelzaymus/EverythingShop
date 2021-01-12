@@ -13,6 +13,7 @@ namespace EverythingShop.WebApp.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Category")]
         public int SubCategoryId { get; set; }
 
         [Required, MaxLength(50), MinLength(3)]

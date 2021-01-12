@@ -10,9 +10,9 @@
 <div class="row">
     <div class="offset-md-3 col-md-6">
         <form asp-controller="UserOrders" asp-action="CompleteOrder" method="post">
-            <input asp-for="UserId" value="@Model.UserId" style="display: none" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UserId" />
             <div class="form-group">
                 <label asp-for="ContactName" class="control-label"></label>
                 <input asp-for="ContactName" class="form-control" required />
