@@ -44,3 +44,8 @@ function updateOrderBadge(badgeId, newOrderState) {
 function disableElement(elemId) {
     $('#' + elemId).prop('disabled', true);
 }
+
+function goToPreviousPage() {
+    history.go(-1);
+    return false;
+}
