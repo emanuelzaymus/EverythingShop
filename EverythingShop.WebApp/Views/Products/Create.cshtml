@@ -32,13 +32,20 @@
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label">Price (EUR)</label>
+                <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group text-right">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="row justify-content-md-end px-2">
+                <div class="col-md-3 m-2 p-0">
+                    <a class="btn btn-primary w-100" asp-action="Index">Back</a>
+                </div>
+                <div class="col-md-3 m-2 p-0">
+                    <input type="submit" value="Create" class="btn btn-success w-100" />
+                </div>
             </div>
+
         </form>
     </div>
 </div>
