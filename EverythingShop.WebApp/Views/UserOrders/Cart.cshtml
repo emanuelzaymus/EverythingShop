@@ -22,7 +22,7 @@
             <div class="row m-0">
                 <div class="col-md-4 p-0">
                     <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.ProductId">
-                        <img class="img-thumbnail" src="@orderProduct.Product.Picture">
+                        <img class="img-thumbnail" src="@orderProduct.Product.Picture" alt="@nameof(orderProduct.Product.Picture)">
                     </a>
                 </div>
                 <div class="col-md-8 p-0">

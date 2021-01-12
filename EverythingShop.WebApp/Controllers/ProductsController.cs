@@ -126,7 +126,7 @@ namespace EverythingShop.WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Name", product.SubCategoryId);
+            ViewData["SubCategories"] = GetSubCategoriesSelectList(product.SubCategoryId);
             return View(product);
         }
 
@@ -156,14 +156,11 @@ namespace EverythingShop.WebApp.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Name", product.SubCategoryId);
+            ViewData["SubCategories"] = GetSubCategoriesSelectList(product.SubCategoryId);
             return View(product);
         }
 

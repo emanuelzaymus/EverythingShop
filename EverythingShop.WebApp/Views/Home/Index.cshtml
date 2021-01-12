@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-body">
                     <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
-                        <img src="@product.Picture" class="card-img-top img-fluid" />
+                        <img class="card-img-top img-fluid" src="@product.Picture" alt="@nameof(product.Picture)" />
                     </a>
                     <div class="card-body">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
