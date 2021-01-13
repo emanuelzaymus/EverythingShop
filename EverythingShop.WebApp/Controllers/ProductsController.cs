@@ -26,7 +26,7 @@ namespace EverythingShop.WebApp.Controllers
         // GET: Products
         public async Task<IActionResult> Index(int? subCategoryId, int? priceFrom, int? priceTo, string searchString)
         {
-            var products = _context.Products.Include(p => p.SubCategory).Select(p => p);
+            var products = _context.Products.Where(p => !p.Deleted).Include(p => p.SubCategory).Select(p => p);
 
             if (subCategoryId.HasValue)
                 products = products.Where(p => p.SubCategoryId == subCategoryId.Value);
@@ -60,8 +60,11 @@ namespace EverythingShop.WebApp.Controllers
             if (product == null)
                 return NotFound();
 
-            ViewData["QuantityOfProduct"] = User.Identity.IsAuthenticated
-                ? await _ordersService.GetQuantityOfProductInCart(User, id.Value) : 0;
+            if (!product.Deleted)
+            {
+                ViewData["QuantityOfProduct"] = User.Identity.IsAuthenticated
+                    ? await _ordersService.GetQuantityOfProductInCart(User, id.Value) : 0;
+            }
 
             return View(product);
         }
@@ -104,6 +107,7 @@ namespace EverythingShop.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                product.Deleted = false;
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -121,10 +125,14 @@ namespace EverythingShop.WebApp.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            Product product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
+            }
+            if (product.Deleted)
+            {
+                return RedirectToAction(nameof(Details), new { id });
             }
             ViewData["SubCategories"] = GetSubCategoriesSelectList(product.SubCategoryId);
             return View(product);
@@ -180,6 +188,10 @@ namespace EverythingShop.WebApp.Controllers
             {
                 return NotFound();
             }
+            if (product.Deleted)
+            {
+                return RedirectToAction(nameof(Details), new { id });
+            }
 
             return View(product);
         }
@@ -191,7 +203,8 @@ namespace EverythingShop.WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
+            product.Deleted = true;
+            //_context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

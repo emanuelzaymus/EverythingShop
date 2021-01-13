@@ -14,46 +14,55 @@
             <h5 class="p-2">@Model.Price Eur</h5>
             <p class="p-2">@Model.Description</p>
 
-            @if (!User.IsInRole("Admin"))
+            @if (!Model.Deleted)
             {
-                <div class="form-inline">
-                    <label class="font-weight-bold">In your cart:</label>
-                    <input id="quantity-of-product" class="form-control mx-2" style="width: 42px" value="@ViewBag.QuantityOfProduct" disabled />
-                </div>
+                @if (!User.IsInRole("Admin"))
+                {
+                    <div class="form-inline">
+                        <label class="font-weight-bold">In your cart:</label>
+                        <input id="quantity-of-product" class="form-control mx-2" style="width: 42px" value="@ViewBag.QuantityOfProduct" disabled />
+                    </div>
 
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="row p-2">
-                        <div class="col-md m-2 p-0">
-                            <button type="button" class="btn btn-primary w-100" onclick="addProductToCart(@Model.Id, 'quantity-of-product')">
-                                Add to My Cart
-                            </button>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="row p-2">
+                            <div class="col-md m-2 p-0">
+                                <button type="button" class="btn btn-primary w-100" onclick="addProductToCart(@Model.Id, 'quantity-of-product')">
+                                    Add to My Cart
+                                </button>
+                            </div>
+                            <div class="col-md m-2 p-0">
+                                <button type="button" class="btn btn-primary w-100" onclick="removeProductFromCart(@Model.Id, 'quantity-of-product')">
+                                    Remove from My Cart
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md m-2 p-0">
-                            <button type="button" class="btn btn-primary w-100" onclick="removeProductFromCart(@Model.Id, 'quantity-of-product')">
-                                Remove from My Cart
-                            </button>
+                    }
+                    else
+                    {
+                        <div class="row p-2">
+                            <div class="col-md m-2 p-0">
+                                <button type="button" class="btn btn-primary w-100" disabled>Add to My Cart</button>
+                            </div>
+                            <div class="col-md m-2 p-0">
+                                <button type="button" class="btn btn-primary w-100" disabled>Remove from My Cart</button>
+                            </div>
                         </div>
-                    </div>
+                        <div class="text-center">
+                            <h6>Log in before adding products into your cart, please.</h6>
+                        </div>
+                    }
                 }
-                else
-                {
-                    <div class="row p-2">
-                        <div class="col-md m-2 p-0">
-                            <button type="button" class="btn btn-primary w-100" disabled>Add to My Cart</button>
-                        </div>
-                        <div class="col-md m-2 p-0">
-                            <button type="button" class="btn btn-primary w-100" disabled>Remove from My Cart</button>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <h6>Log in before adding products into your cart, please.</h6>
-                    </div>
-                }
+            }
+            else
+            {
+                <div class="text-center">
+                    <h5 class="text-danger">This product was deleted.</h5>
+                </div>
             }
         </div>
     </div>
-    @if (User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin") && !Model.Deleted)
     {
         <div class="row justify-content-md-end">
             <div class="col-md-3 m-2 p-0">

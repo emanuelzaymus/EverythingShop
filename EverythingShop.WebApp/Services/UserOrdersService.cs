@@ -71,7 +71,7 @@ namespace EverythingShop.WebApp.Services
             {
                 orderProduct.Quantity++;
             }
-            else if (await _context.Products.AnyAsync(p => p.Id == productId))
+            else if (await _context.Products.AnyAsync(p => p.Id == productId && !p.Deleted))
             {
                 orderProduct = new OrderProduct() { ProductId = productId, Quantity = 1 };
                 userOrder.OrderProducts.Add(orderProduct);
