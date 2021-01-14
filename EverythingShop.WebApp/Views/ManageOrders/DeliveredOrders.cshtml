@@ -56,7 +56,11 @@
                                 @foreach (var orderProduct in order.OrderProducts)
                                 {
                                     <tr>
-                                        <td>@orderProduct.Product.Name</td>
+                                        <td>
+                                            <a asp-controller="Products" asp-action="Details" asp-route-id="@orderProduct.Product.Id">
+                                                @orderProduct.Product.Name
+                                            </a>
+                                        </td>
                                         <td>@orderProduct.Quantity</td>
                                         <td>@orderProduct.Product.Price Eur</td>
                                     </tr>
