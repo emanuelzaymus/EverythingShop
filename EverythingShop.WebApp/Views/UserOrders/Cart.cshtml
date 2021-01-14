@@ -42,13 +42,15 @@
 
                             <div class="col-md m-2 p-0">
                                 <button type="button" class="btn btn-primary w-100"
-                                        onclick="addProductToCart(@orderProduct.ProductId, 'quantity-of-product-@orderProduct.ProductId')">
+                                        onclick="addProductToCart(@orderProduct.ProductId, 'quantity-of-product-@orderProduct.ProductId',
+                                                @orderProduct.Product.Price, 'total-price')">
                                     Add to My Cart
                                 </button>
                             </div>
                             <div class="col-md m-2 p-0">
                                 <button type="button" class="btn btn-primary w-100"
-                                        onclick="removeProductFromCart(@orderProduct.ProductId, 'quantity-of-product-@orderProduct.ProductId')">
+                                        onclick="removeProductFromCart(@orderProduct.ProductId, 'quantity-of-product-@orderProduct.ProductId',
+                                                @orderProduct.Product.Price, 'total-price')">
                                     Remove from My Cart
                                 </button>
                             </div>
@@ -62,7 +64,7 @@
 
     <div class="row">
         <div class="col-6 font-weight-bolder">
-            Total Price: @Model.GetTotalPrice() Eur
+            Total Price: <span id="total-price">@Model.GetTotalPrice()</span> Eur
         </div>
         <div class="col-6 text-right">
             <a class="btn btn-primary" asp-controller="UserOrders" asp-action="CompleteOrder">Complete This Order</a>

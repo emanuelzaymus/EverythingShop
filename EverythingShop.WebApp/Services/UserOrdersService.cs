@@ -84,7 +84,7 @@ namespace EverythingShop.WebApp.Services
 
         internal async Task<int> RemoveProductFromCart(ClaimsPrincipal claims, int productId)
         {
-            int newQuantity = 0;
+            int newQuantity = -1;
 
             AppUser user = await GetUserAsync(claims);
             UserOrder userOrder = await GetCurrentOrderAsync(user, includeProducts: true, asNoTracking: false);
@@ -95,9 +95,11 @@ namespace EverythingShop.WebApp.Services
                 if (orderProduct != null)
                 {
                     if (orderProduct.Quantity <= 1)
+                    {
                         userOrder.OrderProducts.Remove(orderProduct);
-                    else
-                        newQuantity = --orderProduct.Quantity;
+                        newQuantity = 0;
+                    }
+                    else newQuantity = --orderProduct.Quantity;
 
                     await _context.SaveChangesAsync();
                 }

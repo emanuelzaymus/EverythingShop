@@ -3,26 +3,40 @@
 
 // Write your JavaScript code.
 
-function addProductToCart(prodId, quantityElemId) {
+function addProductToCart(prodId, quantityElemId, productPrice, totalPriceElemId) {
     $.post("/Products/AddProductToCart",
         { productId: prodId },
         function (response) {
-            updateElementValue(quantityElemId, response.newProductQuantity);
+            if (response.success) {
+                updateElementValue(quantityElemId, response.newProductQuantity);
+                updateTotalPrice(totalPriceElemId, productPrice);
+            }
         }
     );
 }
 
-function removeProductFromCart(prodId, quantityElemId) {
+function removeProductFromCart(prodId, quantityElemId, productPrice, totalPriceElemId) {
     $.post("/Products/RemoveProductFromCart",
         { productId: prodId },
         function (response) {
-            updateElementValue(quantityElemId, response.newProductQuantity);
+            if (response.success) {
+                updateElementValue(quantityElemId, response.newProductQuantity);
+                updateTotalPrice(totalPriceElemId, -productPrice);
+            }
         }
     );
 }
 
 function updateElementValue(elemId, newValue) {
     $('#' + elemId).val(newValue);
+}
+
+function updateTotalPrice(totalPriceId, productPrice) {
+    var totalPriceElem = $('#' + totalPriceId);
+    totalPriceElem.html(
+        (parseFloat(totalPriceElem.html()) + productPrice)
+            .toFixed(2)
+    );
 }
 
 function setOrderDelivered(btnId, orderId, orderBadgeElemId) {

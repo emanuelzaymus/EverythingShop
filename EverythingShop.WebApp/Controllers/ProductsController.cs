@@ -80,20 +80,24 @@ namespace EverythingShop.WebApp.Controllers
         [Authorize]
         public async Task<JsonResult> AddProductToCart(int? productId)
         {
-            if (productId == null)
-                return Json(new { newProductQuantity = -1 });
-
-            return Json(new { newProductQuantity = await _ordersService.AddProductToCart(User, productId.Value) });
+            int prodQuantity = -1;
+            if (productId != null)
+            {
+                prodQuantity = await _ordersService.AddProductToCart(User, productId.Value);
+            }
+            return base.Json(new { newProductQuantity = prodQuantity, success = prodQuantity >= 0 });
         }
 
         [HttpPost]
         [Authorize]
         public async Task<JsonResult> RemoveProductFromCart(int? productId)
         {
-            if (productId == null)
-                return Json(new { newProductQuantity = -1 });
-
-            return Json(new { newProductQuantity = await _ordersService.RemoveProductFromCart(User, productId.Value) });
+            int prodQuantity = -1;
+            if (productId != null)
+            {
+                prodQuantity = await _ordersService.RemoveProductFromCart(User, productId.Value);
+            }
+            return base.Json(new { newProductQuantity = prodQuantity, success = prodQuantity >= 0 });
         }
 
         // GET: Products/Create
