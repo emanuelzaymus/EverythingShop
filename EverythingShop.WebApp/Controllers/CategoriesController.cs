@@ -24,7 +24,14 @@ namespace EverythingShop.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var allCategories = await _context.MainCategories.Include(mc => mc.SubCategories).ToListAsync(); ;
+            List<MainCategory> allCategories = await _context.MainCategories.Where(mc => !mc.Deleted)
+                .Include(mc => mc.SubCategories)
+                .AsNoTracking()
+                .ToListAsync();
+
+            foreach (var mainCategory in allCategories)
+                mainCategory.SubCategories.RemoveAll(sc => sc.Deleted);
+
             return View(allCategories);
         }
 
@@ -56,9 +63,9 @@ namespace EverythingShop.WebApp.Controllers
 
             if (selectedCategoryId.HasValue)
             {
-                return new SelectList(_context.MainCategories, "Id", "Name", selectedCategoryId.Value);
+                return new SelectList(_context.MainCategories.Where(mc => !mc.Deleted), "Id", "Name", selectedCategoryId.Value);
             }
-            return new SelectList(_context.MainCategories, "Id", "Name",
+            return new SelectList(_context.MainCategories.Where(mc => !mc.Deleted), "Id", "Name",
                 _context.MainCategories.Select(mc => mc.Id).FirstOrDefault());
         }
 
@@ -79,6 +86,7 @@ namespace EverythingShop.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                mainCategory.Deleted = false;
                 _context.Add(mainCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -92,6 +100,7 @@ namespace EverythingShop.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                subCategory.Deleted = false;
                 _context.Add(subCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -126,7 +135,7 @@ namespace EverythingShop.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(MainCategoryDetails), id);
+            return RedirectToAction(nameof(MainCategoryDetails), new { id });
         }
 
         [HttpPost]
@@ -155,7 +164,7 @@ namespace EverythingShop.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(SubCategoryDetails), id);
+            return RedirectToAction(nameof(SubCategoryDetails), new { id });
         }
 
         public async Task<IActionResult> MainCategoryDelete(int? id)
@@ -165,6 +174,10 @@ namespace EverythingShop.WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             MainCategory mainCategory = await _context.MainCategories.FindAsync(id.Value);
+            if (mainCategory.Deleted)
+            {
+                return RedirectToAction(nameof(MainCategoryDetails), new { id });
+            }
             return View("Delete", mainCategory);
         }
 
@@ -175,22 +188,69 @@ namespace EverythingShop.WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             SubCategory subCategory = await _context.SubCategories.FindAsync(id.Value);
+            if (subCategory.Deleted)
+            {
+                return RedirectToAction(nameof(SubCategoryDetails), new { id });
+            }
             return View("Delete", subCategory);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int? id, bool? isMainCategory)
         {
-            throw new NotImplementedException();
-            try
+            if (!id.HasValue || !isMainCategory.HasValue)
+                return NotFound();
+
+            if (isMainCategory.Value)
+                await DeleteMainCategory(id);
+            else
+                await DeleteSubCategory(id);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task DeleteMainCategory(int? id)
+        {
+            if (!id.HasValue)
+                return;
+
+            MainCategory category = await _context.MainCategories.Where(mc => mc.Id == id && !mc.Deleted)
+                .Include(mc => mc.SubCategories)
+                .ThenInclude(sc => sc.Products)
+                .FirstOrDefaultAsync();
+
+            if (category != null)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                category.Deleted = true;
+
+                foreach (var subCategory in category.SubCategories)
+                {
+                    subCategory.Deleted = true;
+
+                    foreach (var product in subCategory.Products)
+                        product.Deleted = true;
+                }
             }
         }
+
+        private async Task DeleteSubCategory(int? id)
+        {
+            if (!id.HasValue)
+                return;
+
+            SubCategory category = await _context.SubCategories.Where(sc => sc.Id == id && !sc.Deleted)
+                .Include(sc => sc.Products).FirstOrDefaultAsync();
+
+            if (category != null)
+            {
+                category.Deleted = true;
+
+                foreach (var product in category.Products)
+                    product.Deleted = true;
+            }
+        }
+
     }
 }

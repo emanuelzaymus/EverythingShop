@@ -23,7 +23,7 @@ namespace EverythingShop.WebApp.Controllers
 
         public IActionResult Index()
         {
-            var radnomProducts = _context.Products.OrderBy(r => Guid.NewGuid()).Take(8).ToList();
+            var radnomProducts = _context.Products.Where(p => !p.Deleted).OrderBy(r => Guid.NewGuid()).Take(8).ToList();
             return View(radnomProducts);
         }
 

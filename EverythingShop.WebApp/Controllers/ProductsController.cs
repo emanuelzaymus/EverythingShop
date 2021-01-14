@@ -40,9 +40,16 @@ namespace EverythingShop.WebApp.Controllers
             if (!string.IsNullOrEmpty(searchString))
                 products = products.Where(p => p.Name.Contains(searchString));
 
+            List<MainCategory> allCategories = await _context.MainCategories.Include(m => m.SubCategories).AsNoTracking().ToListAsync();
+
+            foreach (var mainCategory in allCategories)
+                mainCategory.SubCategories.RemoveAll(sc => sc.Deleted);
+
+            allCategories.RemoveAll(mc => mc.SubCategories.Count == 0);
+
             SearchProductViewModel ret = new SearchProductViewModel()
             {
-                AllCategories = await _context.MainCategories.Include(m => m.SubCategories).ToListAsync(),
+                AllCategories = allCategories,
                 Products = await products.ToListAsync(),
                 SubCategoryId = subCategoryId
             };
@@ -213,10 +220,10 @@ namespace EverythingShop.WebApp.Controllers
         {
             if (selectedValue != null)
             {
-                return new SelectList(_context.SubCategories.Include(sc => sc.MainCategory),
+                return new SelectList(_context.SubCategories.Where(sc => !sc.Deleted).Include(sc => sc.MainCategory),
                 "Id", "Name", selectedValue, "MainCategory");
             }
-            return new SelectList(_context.SubCategories.Include(sc => sc.MainCategory),
+            return new SelectList(_context.SubCategories.Where(sc => !sc.Deleted).Include(sc => sc.MainCategory),
                 "Id", "Name", _context.SubCategories.Select(sc => sc.Id).FirstOrDefault(), "MainCategory");
         }
 
