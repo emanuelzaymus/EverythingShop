@@ -122,7 +122,7 @@ namespace EverythingShop.WebApp.Services
             var user = await GetUserAsync(claims);
 
             return await _context.UserOrders
-                .Where(o => o.UserId == user.Id && o.OrderedOn != null)
+                .Where(o => o.UserId == user.Id && o.IsFinished())
                 .Include(o => o.OrderProducts).ThenInclude(x => x.Product).AsNoTracking().ToListAsync();
         }
 
@@ -169,7 +169,7 @@ namespace EverythingShop.WebApp.Services
 
         private async Task<UserOrder> GetCurrentOrderAsync(AppUser user, bool includeProducts, bool asNoTracking = false)
         {
-            var userOrders = _context.UserOrders.Where(o => o.UserId == user.Id && o.OrderedOn == null);
+            var userOrders = _context.UserOrders.Where(o => o.UserId == user.Id && !o.IsFinished());
 
             if (includeProducts)
                 userOrders = userOrders.Include(o => o.OrderProducts).ThenInclude(x => x.Product);

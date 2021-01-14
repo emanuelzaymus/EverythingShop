@@ -22,7 +22,7 @@ namespace EverythingShop.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<UserOrder> orders = await _context.UserOrders.Where(o => o.State.HasValue && o.State != OrderState.Delivered)
+            List<UserOrder> orders = await _context.UserOrders.Where(o => o.IsFinished() && o.State != OrderState.Delivered)
                 .Include(o => o.User)
                 .Include(o => o.OrderProducts)
                 .ThenInclude(op => op.Product)
@@ -32,7 +32,7 @@ namespace EverythingShop.WebApp.Controllers
 
         public async Task<IActionResult> DeliveredOrders()
         {
-            List<UserOrder> orders = await _context.UserOrders.Where(o => o.State.HasValue && o.State == OrderState.Delivered)
+            List<UserOrder> orders = await _context.UserOrders.Where(o => o.IsFinished() && o.State == OrderState.Delivered)
                .Include(o => o.User)
                .Include(o => o.OrderProducts)
                .ThenInclude(op => op.Product)
