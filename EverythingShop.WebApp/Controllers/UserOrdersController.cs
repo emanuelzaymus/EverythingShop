@@ -73,13 +73,13 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<string> SetOrderDelivered(int? orderId)
+        public async Task<JsonResult> SetOrderDelivered(int? orderId)
         {
             if (orderId.HasValue)
             {
-                return await _ordersService.SetOrderDelivered(User, orderId.Value);
+                return Json(new { newOrderState = await _ordersService.SetOrderDelivered(User, orderId.Value) });
             }
-            return null;
+            return Json(new { newOrderState = (string)null });
         }
 
     }

@@ -6,8 +6,8 @@
 function addProductToCart(prodId, quantityElemId) {
     $.post("/Products/AddProductToCart",
         { productId: prodId },
-        function (newProductQuantity) {
-            updateElementValue(quantityElemId, newProductQuantity);
+        function (response) {
+            updateElementValue(quantityElemId, response.newProductQuantity);
         }
     );
 }
@@ -15,8 +15,8 @@ function addProductToCart(prodId, quantityElemId) {
 function removeProductFromCart(prodId, quantityElemId) {
     $.post("/Products/RemoveProductFromCart",
         { productId: prodId },
-        function (newProductQuantity) {
-            updateElementValue(quantityElemId, newProductQuantity);
+        function (response) {
+            updateElementValue(quantityElemId, response.newProductQuantity);
         }
     );
 }
@@ -28,8 +28,8 @@ function updateElementValue(elemId, newValue) {
 function setOrderDelivered(btnId, orderId, orderBadgeElemId) {
     $.post("/UserOrders/SetOrderDelivered",
         { orderId: orderId },
-        function (newOrderState) {
-            updateOrderBadgeSuccess(orderBadgeElemId, newOrderState);
+        function (response) {
+            updateOrderBadgeSuccess(orderBadgeElemId, response.newOrderState);
             disableElement(btnId)
         }
     );
@@ -44,8 +44,8 @@ function updateOrderBadgeSuccess(badgeId, newOrderState) {
 function setOrderSent(btnId, orderId, orderBadgeElemId) {
     $.post("/ManageOrders/SetOrderSent",
         { orderId: orderId },
-        function (newOrderState) {
-            updateOrderBadgeWarning(orderBadgeElemId, newOrderState);
+        function (response) {
+            updateOrderBadgeWarning(orderBadgeElemId, response.newOrderState);
             disableElement(btnId)
         }
     );

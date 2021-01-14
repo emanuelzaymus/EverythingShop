@@ -41,7 +41,7 @@ namespace EverythingShop.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<string> SetOrderSent(int? orderId)
+        public async Task<JsonResult> SetOrderSent(int? orderId)
         {
             if (orderId.HasValue)
             {
@@ -52,9 +52,9 @@ namespace EverythingShop.WebApp.Controllers
                     userOrder.State = OrderState.Sent;
                 }
                 await _context.SaveChangesAsync();
-                return OrderState.Sent.ToString();
+                return Json(new { newOrderState = OrderState.Sent.ToString() });
             }
-            return null;
+            return Json(new { newOrderState = (string)null });
         }
 
     }
