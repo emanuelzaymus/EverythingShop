@@ -123,7 +123,7 @@ namespace EverythingShop.WebApp.Services
 
             return await _context.UserOrders
                 .Where(o => o.UserId == user.Id && o.OrderedOn != null)
-                .Include(o => o.OrderProducts).ThenInclude(x => x.Product).ToListAsync();
+                .Include(o => o.OrderProducts).ThenInclude(x => x.Product).AsNoTracking().ToListAsync();
         }
 
         internal async Task<UserOrder> GetCurrentOrNewOrder(ClaimsPrincipal claims)

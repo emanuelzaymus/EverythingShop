@@ -29,16 +29,32 @@ function setOrderDelivered(btnId, orderId, orderBadgeElemId) {
     $.post("/UserOrders/SetOrderDelivered",
         { orderId: orderId },
         function (newOrderState) {
-            updateOrderBadge(orderBadgeElemId, newOrderState);
+            updateOrderBadgeSuccess(orderBadgeElemId, newOrderState);
             disableElement(btnId)
         }
     );
 }
 
-function updateOrderBadge(badgeId, newOrderState) {
+function updateOrderBadgeSuccess(badgeId, newOrderState) {
     $('#' + badgeId).html(newOrderState)
         .removeClass("badge-warning")
         .addClass("badge-success");
+}
+
+function setOrderSent(btnId, orderId, orderBadgeElemId) {
+    $.post("/ManageOrders/SetOrderSent",
+        { orderId: orderId },
+        function (newOrderState) {
+            updateOrderBadgeWarning(orderBadgeElemId, newOrderState);
+            disableElement(btnId)
+        }
+    );
+}
+
+function updateOrderBadgeWarning(badgeId, newOrderState) {
+    $('#' + badgeId).html(newOrderState)
+        .removeClass("badge-secondary")
+        .addClass("badge-warning");
 }
 
 function disableElement(elemId) {

@@ -1,0 +1,87 @@
+﻿@model List<UserOrder>
+
+@{
+    ViewData["Title"] = "Manage Orders";
+}
+
+<h1>Manage Orders</h1>
+<hr />
+
+@if (Model.Count == 0)
+{
+    <div class="text-center">
+        <h5>No orders to manage.</h5>
+    </div>
+    return;
+}
+
+<div class="offset-md-1 col-md-10">
+    @foreach (var order in Model)
+    {
+        <div class="card mb-3">
+            <h3 class="card-title px-3 pt-3 m-0">
+                Customer Order - <b>@order.User.UserName</b> <span style="font-size: 20px">(@order.User.Email)</span>
+                <span id="order-badge-@order.Id" class="badge text-light @(order.State == OrderState.Sent ? "badge-warning" : "badge-secondary")">
+                    @order.State
+                </span>
+            </h3>
+            <div class="row m-0">
+                <div class="col-md-4 p-0">
+                    <div class="card-body">
+
+                        <p class="card-text">
+                            <h6 class="font-weight-bold">Address</h6>
+                            <div>@order.ContactName</div>
+                            <div>@order.StreetAddress</div>
+                            <div>@order.PostalCode</div>
+                            <div>@order.City</div>
+                            <div>@order.Country </div>
+                        </p>
+
+                        <h6 class="card-text font-weight-bold">@Html.DisplayNameFor(model => model[0].OrderedOn)</h6>
+                        <p class="card-text">@order.OrderedOn</p>
+                    </div>
+                </div>
+                <div class="col-md-8 p-0">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var orderProduct in order.OrderProducts)
+                                {
+                                    <tr>
+                                        <td>@orderProduct.Product.Name</td>
+                                        <td>@orderProduct.Quantity</td>
+                                        <td>@orderProduct.Product.Price Eur</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-6 font-weight-bolder">
+                        Total Price: @order.GetTotalPrice() Eur
+                    </div>
+                    @if (order.State == OrderState.Pending)
+                    {
+                        <div class="col-6 text-right">
+                            <button id="sent-btn-@order.Id" type="button" class="btn btn-primary"
+                                    onclick="setOrderSent('sent-btn-@order.Id', @order.Id, 'order-badge-@order.Id')">
+                                Sent
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
