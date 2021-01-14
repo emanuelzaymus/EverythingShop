@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EverythingShop.WebApp.Models
 {
@@ -19,9 +16,6 @@ namespace EverythingShop.WebApp.Models
 
         public virtual List<SubCategory> SubCategories { get; set; }
 
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
     }
 }

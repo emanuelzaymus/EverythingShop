@@ -10,14 +10,11 @@ namespace EverythingShop.WebApp.Areas.Identity.Pages.Account.Manage
     public class PersonalDataModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly ILogger<PersonalDataModel> _logger;
 
         public PersonalDataModel(
-            UserManager<AppUser> userManager,
-            ILogger<PersonalDataModel> logger)
+            UserManager<AppUser> userManager)
         {
             _userManager = userManager;
-            _logger = logger;
         }
 
         public async Task<IActionResult> OnGet()

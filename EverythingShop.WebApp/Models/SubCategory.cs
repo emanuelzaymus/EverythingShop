@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EverythingShop.WebApp.Models
 {
@@ -22,6 +19,7 @@ namespace EverythingShop.WebApp.Models
         public bool Deleted { get; set; } = false;
 
         public virtual MainCategory MainCategory { get; set; }
+
         public virtual List<Product> Products { get; set; }
     }
 }

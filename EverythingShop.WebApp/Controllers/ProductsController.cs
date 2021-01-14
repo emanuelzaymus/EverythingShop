@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,6 @@ namespace EverythingShop.WebApp.Controllers
             _ordersService = ordersService;
         }
 
-        // GET: Products
         public async Task<IActionResult> Index(int? subCategoryId, int? priceFrom, int? priceTo, string searchString)
         {
             var products = _context.Products.Where(p => !p.Deleted).Include(p => p.SubCategory).Select(p => p);
@@ -56,7 +54,6 @@ namespace EverythingShop.WebApp.Controllers
             return View(ret);
         }
 
-        // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -100,7 +97,6 @@ namespace EverythingShop.WebApp.Controllers
             return base.Json(new { newProductQuantity = prodQuantity, success = prodQuantity >= 0 });
         }
 
-        // GET: Products/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -108,9 +104,6 @@ namespace EverythingShop.WebApp.Controllers
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -127,7 +120,6 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -149,9 +141,6 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -183,7 +172,6 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -207,7 +195,6 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -215,7 +202,6 @@ namespace EverythingShop.WebApp.Controllers
         {
             var product = await _context.Products.FindAsync(id);
             product.Deleted = true;
-            //_context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

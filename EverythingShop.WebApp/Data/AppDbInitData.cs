@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Diagnostics;
 using System.Linq;
 
 namespace EverythingShop.WebApp.Data
@@ -28,7 +27,6 @@ namespace EverythingShop.WebApp.Data
             if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
             {
                 roleManager.CreateAsync(new IdentityRole("Admin")).Wait();
-                Trace.WriteLine("CREATED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
         }
 
