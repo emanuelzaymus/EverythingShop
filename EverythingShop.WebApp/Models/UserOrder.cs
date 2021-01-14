@@ -39,7 +39,5 @@ namespace EverythingShop.WebApp.Models
         public virtual List<OrderProduct> OrderProducts { get; set; }
 
         public decimal GetTotalPrice() => OrderProducts.Sum(op => op.Quantity * op.Product.Price);
-
-        public bool IsFinished() => State.HasValue;
     }
 }
