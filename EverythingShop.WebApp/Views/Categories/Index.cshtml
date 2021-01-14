@@ -30,8 +30,7 @@
 
                 @foreach (var subCategory in mainCategory.SubCategories)
                 {
-                    <a class="list-group-item" style="text-indent: 40px"
-                       asp-action="SubCategoryDetails" asp-route-id="@subCategory.Id">
+                    <a class="list-group-item subcategory-indent" asp-action="SubCategoryDetails" asp-route-id="@subCategory.Id">
                         @subCategory.Name
                     </a>
                 }

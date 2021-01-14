@@ -20,7 +20,7 @@
     {
         <div class="card mb-3">
             <h3 class="card-title px-3 pt-3 m-0">
-                Customer Order - <b>@order.User.UserName</b> <span style="font-size: 20px">(@order.User.Email)</span>
+                Customer Order - <b>@order.User.UserName</b> <span class="email-smaller">(@order.User.Email)</span>
                 <span id="order-badge-@order.Id" class="badge text-light @(order.State == OrderState.Sent ? "badge-warning" : "badge-secondary")">
                     @order.State
                 </span>

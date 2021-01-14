@@ -20,7 +20,8 @@
                 {
                     <div class="form-inline">
                         <label class="font-weight-bold">In your cart:</label>
-                        <input id="quantity-of-product" class="form-control mx-2" style="width: 42px" value="@ViewBag.QuantityOfProduct" disabled />
+                        <input id="quantity-of-product" class="form-control mx-2 quantity-of-product-input"
+                               value="@ViewBag.QuantityOfProduct" disabled />
                     </div>
 
                     @if (User.Identity.IsAuthenticated)
