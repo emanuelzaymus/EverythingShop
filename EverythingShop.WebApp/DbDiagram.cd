@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EverythingShop.WebApp.Models.MainCategory">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAAAAEAQAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\MainCategory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.OrderProduct">
+    <Position X="3" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAAAAAAAAAAgAAAAAAAAAAAEAAgAAAAAA=</HashCode>
+      <FileName>Models\OrderProduct.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.Product">
+    <Position X="3" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAAAQAgAAAAAAAAEAQACgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Product.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.SubCategory">
+    <Position X="5.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAEAQgAAEAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Models\SubCategory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.UserOrder">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAgBAAAAAAAIIAAgAAgAAAIAAAAAAAAABABAABA=</HashCode>
+      <FileName>Models\UserOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Areas.Identity.Data.AppUser" Collapsed="true">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Identity\Data\AppUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="EverythingShop.WebApp.Models.OrderState">
+    <Position X="0.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAIAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\OrderState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

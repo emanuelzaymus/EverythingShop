@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EverythingShop.WebApp.Program" Collapsed="true">
+    <Position X="3.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Startup" Collapsed="true">
+    <Position X="3.5" Y="2.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Controllers.CategoriesController" Collapsed="true">
+    <Position X="7.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAgACAAgAABACAAIAAkAAACAMAAAAAAAEBAAAAAAA=</HashCode>
+      <FileName>Controllers\CategoriesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Controllers.HomeController" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABQAAAAAAAAIAAAAAAQAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Controllers.ManageOrdersController" Collapsed="true">
+    <Position X="7.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAgACAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ManageOrdersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Controllers.ProductsController" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAACABBACAgAAAAAAAAAEAQEACAAEAAAQAAAA=</HashCode>
+      <FileName>Controllers\ProductsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Controllers.UserOrdersController" Collapsed="true">
+    <Position X="7.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAABAAAgAAAAAAAAAAgAAAAAAEgAAAAAAA=</HashCode>
+      <FileName>Controllers\UserOrdersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.MainCategory" Collapsed="true">
+    <Position X="8.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAAAAEAQAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\MainCategory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.OrderProduct" Collapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAAAAAAAAAAgAAAAAAAAAAAEAAgAAAAAA=</HashCode>
+      <FileName>Models\OrderProduct.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.Product" Collapsed="true">
+    <Position X="9.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAAAQAgAAAAAAAAEAQACgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Product.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.SearchProductViewModel" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAIAAAAAAAAAAAAgAAAAAAAAAAACAIAAQ=</HashCode>
+      <FileName>Models\SearchProductViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.SubCategory" Collapsed="true">
+    <Position X="10.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAEAQgAAEAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Models\SubCategory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EverythingShop.WebApp.Models.UserOrder" Collapsed="true">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAgBAAAAAAAIIAAgAAgAAAIAAAAAAAAABABAABA=</HashCode>
+      <FileName>Models\UserOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Services.UserOrdersService" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAQAAAAABEAAAAAAECAAIAAgQAAAAAAiAQQAAQA=</HashCode>
+      <FileName>Services\UserOrdersService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Data.AppDbContext">
+    <Position X="4.75" Y="3" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAIAAAAAAAAAAAAAEAACAAAAAAAAAAAQAAQ=</HashCode>
+      <FileName>Areas\Identity\Data\AppDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EverythingShop.WebApp.Areas.Identity.Data.AppUser" Collapsed="true">
+    <Position X="10.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Identity\Data\AppUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="EverythingShop.WebApp.Models.OrderState" Collapsed="true">
+    <Position X="9.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAIAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\OrderState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
