@@ -11,17 +11,31 @@ using System.Threading.Tasks;
 
 namespace EverythingShop.WebApp.Services
 {
+    /// <summary>
+    /// Service for user orders. Inject this class for manipulation with user orders.
+    /// </summary>
     public class UserOrdersService
     {
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
+        /// <summary>
+        /// Service for user orders. Inject this class for manipulation with user orders.
+        /// </summary>
+        /// <param name="context">Application DB context</param>
         public UserOrdersService(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Makes user order delivered.
+        /// </summary>
+        /// <param name="claims">User claims</param>
+        /// <param name="orderId">Order ID to make delivered</param>
+        /// <returns>Returns "Delivered" if <c>State</c> of order with <paramref name="orderId"/> 
+        /// was set to <c>State.Delivered</c>. Else null.</returns>
         internal async Task<string> SetOrderDelivered(ClaimsPrincipal claims, int orderId)
         {
             AppUser user = await GetUserAsync(claims);
@@ -38,6 +52,10 @@ namespace EverythingShop.WebApp.Services
             return null;
         }
 
+        /// <summary>
+        /// Save <paramref name="order"/> with <c>OrderedOn = DateTime.Now</c> and <c>State = OrderState.Pending</c>.
+        /// </summary>
+        /// <param name="order">Order to finalize</param>
         internal async Task CompleteOrder(UserOrder order)
         {
             order.OrderedOn = DateTime.Now;
@@ -47,6 +65,9 @@ namespace EverythingShop.WebApp.Services
             await _context.SaveChangesAsync();
         }
 
+        /// <param name="claims">User claims</param>
+        /// <param name="productId">Product of ID</param>
+        /// <returns>Quantity of product with <paramref name="productId"/> in Cart. If no such product in Cart then 0.</returns>
         internal async Task<int> GetQuantityOfProductInCart(ClaimsPrincipal claims, int productId)
         {
             AppUser user = await GetUserAsync(claims);
@@ -62,6 +83,12 @@ namespace EverythingShop.WebApp.Services
             return 0;
         }
 
+        /// <summary>
+        /// Adds product into the users Cart.
+        /// </summary>
+        /// <param name="claims">User claims</param>
+        /// <param name="productId">Product to add</param>
+        /// <returns>Quantity of this product in the Cart.</returns>
         internal async Task<int> AddProductToCart(ClaimsPrincipal claims, int productId)
         {
             UserOrder userOrder = await GetCurrentOrNewOrder(claims);
@@ -81,6 +108,12 @@ namespace EverythingShop.WebApp.Services
             return orderProduct.Quantity;
         }
 
+        /// <summary>
+        /// Removes product from users Cart
+        /// </summary>
+        /// <param name="claims">User claims</param>
+        /// <param name="productId">Product to remove from Cart</param>
+        /// <returns>New quantity of this product in users Cart. -1 if there is no such product in users Cart.</returns>
         internal async Task<int> RemoveProductFromCart(ClaimsPrincipal claims, int productId)
         {
             int newQuantity = -1;
@@ -106,18 +139,24 @@ namespace EverythingShop.WebApp.Services
             return newQuantity;
         }
 
+        /// <param name="claims">User claims</param>
+        /// <returns>Current order without it's products.</returns>
         internal async Task<UserOrder> GetCurrentOrderWithoutProducts(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);
             return await GetCurrentOrderAsync(user, includeProducts: false);
         }
 
+        /// <param name="claims">User claims</param>
+        /// <returns>Current order with it's products.</returns>
         internal async Task<UserOrder> GetCurrentOrderWithProducts(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);
             return await GetCurrentOrderAsync(user, includeProducts: true);
         }
 
+        /// <param name="claims">User orders</param>
+        /// <returns>List of finished orders - Orders that were completed.</returns>
         internal async Task<List<UserOrder>> GetFinishedOrders(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);
@@ -127,6 +166,8 @@ namespace EverythingShop.WebApp.Services
                 .Include(o => o.OrderProducts).ThenInclude(x => x.Product).AsNoTracking().ToListAsync();
         }
 
+        /// <param name="claims">User claims</param>
+        /// <returns>Current order, if does not exist create new <c>UserOrder</c>.</returns>
         internal async Task<UserOrder> GetCurrentOrNewOrder(ClaimsPrincipal claims)
         {
             var user = await GetUserAsync(claims);
@@ -139,6 +180,9 @@ namespace EverythingShop.WebApp.Services
             return currentOrder;
         }
 
+        /// <param name="claims">User claims</param>
+        /// <param name="order">User's order</param>
+        /// <returns><c>True</c> if <paramref name="order"/> i current user's order. Else <c>False</c>.</returns>
         internal async Task<bool> IsCurrentOrderAsync(ClaimsPrincipal claims, UserOrder order)
         {
             if (order != null)
@@ -151,6 +195,8 @@ namespace EverythingShop.WebApp.Services
             return false;
         }
 
+        /// <param name="claims">User claims</param>
+        /// <returns>Whether is user's current order empty.</returns>
         internal async Task<bool> IsCurrentOrderEmpty(ClaimsPrincipal claims)
         {
             AppUser user = await GetUserAsync(claims);

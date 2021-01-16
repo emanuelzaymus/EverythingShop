@@ -11,17 +11,33 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EverythingShop.WebApp.Controllers
 {
+    /// <summary>
+    /// Controller of products. User does not hae to be authorized.
+    /// </summary>
     public class ProductsController : Controller
     {
         private readonly AppDbContext _context;
         private readonly UserOrdersService _ordersService;
 
+        /// <summary>
+        /// Creates ProductsController.
+        /// </summary>
+        /// <param name="context">Application DB Context</param>
+        /// <param name="ordersService">user orders service</param>
         public ProductsController(AppDbContext context, UserOrdersService ordersService)
         {
             _context = context;
             _ordersService = ordersService;
         }
 
+        /// <summary>
+        /// Main page for viewing products and filterinf them.
+        /// </summary>
+        /// <param name="subCategoryId">Products only from specific SubCategory</param>
+        /// <param name="priceFrom">Minimal price</param>
+        /// <param name="priceTo">Maximal price</param>
+        /// <param name="searchString">Product name has to contain this string.</param>
+        /// <returns></returns>
         public async Task<IActionResult> Index(int? subCategoryId, int? priceFrom, int? priceTo, string searchString)
         {
             var products = _context.Products.Where(p => !p.Deleted).Include(p => p.SubCategory).Select(p => p);
@@ -54,6 +70,10 @@ namespace EverythingShop.WebApp.Controllers
             return View(ret);
         }
 
+        /// <summary>
+        /// Details of product with <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">Product ID</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -73,6 +93,13 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
+        /// <summary>
+        /// API POST Request.
+        /// Adds product with <paramref name="productId"/> into the user Cart.
+        /// User needs to be authorized.
+        /// </summary>
+        /// <param name="productId">Product ID to add into the Cart</param>
+        /// <returns>JSON object with <c>response.success</c> and new <c>response.prodQuantity</c>.</returns>
         [HttpPost]
         [Authorize]
         public async Task<JsonResult> AddProductToCart(int? productId)
@@ -85,6 +112,13 @@ namespace EverythingShop.WebApp.Controllers
             return base.Json(new { newProductQuantity = prodQuantity, success = prodQuantity >= 0 });
         }
 
+        /// <summary>
+        /// API POST Request.
+        /// Removes product with <paramref name="productId"/> from the user Cart.
+        /// User needs to be authorized.
+        /// </summary>
+        /// <param name="productId">Product ID to remove from the Cart</param>
+        /// <returns>JSON object with <c>response.success</c> and new <c>response.prodQuantity</c>.</returns>
         [HttpPost]
         [Authorize]
         public async Task<JsonResult> RemoveProductFromCart(int? productId)
@@ -97,6 +131,10 @@ namespace EverythingShop.WebApp.Controllers
             return base.Json(new { newProductQuantity = prodQuantity, success = prodQuantity >= 0 });
         }
 
+        /// <summary>
+        /// User needs to be authorized in "Admin" role.
+        /// </summary>
+        /// <returns>View for new Product creation.</returns>
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -104,6 +142,11 @@ namespace EverythingShop.WebApp.Controllers
             return View();
         }
 
+        /// <summary>
+        /// User needs to be authorized in "Admin" role.
+        /// </summary>
+        /// <param name="product">Product to create</param>
+        /// <returns>View of newly created product.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -120,6 +163,11 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
+        /// <summary>
+        /// User needs to be authorized in "Admin" role.
+        /// </summary>
+        /// <param name="product">ID of product to edit</param>
+        /// <returns>View for product settings.</returns>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -141,6 +189,12 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
+        /// <summary>
+        /// User needs to be authorized in "Admin" role.
+        /// </summary>
+        /// <param name="id">ID of product to edit</param>
+        /// <param name="product">Changed product</param>
+        /// <returns>Index if success. Else not.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -172,6 +226,11 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
+        /// <summary>
+        /// User needs to be authorized in "Admin" role.
+        /// </summary>
+        /// <param name="product">ID of product to delete</param>
+        /// <returns>View for product deletion.</returns>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -195,6 +254,12 @@ namespace EverythingShop.WebApp.Controllers
             return View(product);
         }
 
+        /// <summary>
+        /// User needs to be authorized in "Admin" role.
+        /// </summary>
+        /// <param name="id">ID of product to delete</param>
+        /// <param name="product">Changed product</param>
+        /// <returns>Index</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]

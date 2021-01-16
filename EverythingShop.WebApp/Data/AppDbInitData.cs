@@ -7,8 +7,15 @@ using System.Linq;
 
 namespace EverythingShop.WebApp.Data
 {
+    /// <summary>
+    /// Initialization test data.
+    /// </summary>
     public static class AppDbInitData
     {
+        /// <summary>
+        /// Initialize DB with product sample data and creats role Admin if it does not exist.
+        /// </summary>
+        /// <param name="services"></param>
         internal static void Initialize(IServiceProvider services)
         {
             using (var context = new AppDbContext(services.GetRequiredService<DbContextOptions<AppDbContext>>()))
@@ -36,12 +43,6 @@ namespace EverythingShop.WebApp.Data
             {
                 return;
             }
-
-            // Remove all
-            //context.Products.RemoveRange(context.Products);
-            //context.SubCategories.RemoveRange(context.SubCategories);
-            //context.MainCategories.RemoveRange(context.MainCategories);
-            //context.SaveChanges();
 
             // Create all
             var electronics = new MainCategory() { Name = "Electronics" };

@@ -10,16 +10,26 @@ using System.Threading.Tasks;
 
 namespace EverythingShop.WebApp.Controllers
 {
+    /// <summary>
+    /// Controller for Categories management. Accessible only for user in "Admin" role.
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly AppDbContext _context;
 
+        /// <summary>
+        /// Creates CategoriesController.
+        /// </summary>
+        /// <param name="context">Application DB Context</param>
         public CategoriesController(AppDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Shows all MainCategories and Subcategories.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             List<MainCategory> allCategories = await _context.MainCategories.Where(mc => !mc.Deleted)
@@ -33,6 +43,10 @@ namespace EverythingShop.WebApp.Controllers
             return View(allCategories);
         }
 
+        /// <summary>
+        /// Detail for <see cref="MainCategory"/>.
+        /// </summary>
+        /// <param name="id"><see cref="MainCategory"/> ID.</param>
         public async Task<IActionResult> MainCategoryDetails(int? id)
         {
             if (!id.HasValue)
@@ -44,6 +58,10 @@ namespace EverythingShop.WebApp.Controllers
             return View(mainCategory);
         }
 
+        /// <summary>
+        /// Detail for <see cref="SubCategory"/>.
+        /// </summary>
+        /// <param name="id"><see cref="SubCategory"/> ID.</param>
         public async Task<IActionResult> SubCategoryDetails(int? id)
         {
             if (!id.HasValue)
@@ -67,17 +85,30 @@ namespace EverythingShop.WebApp.Controllers
                 _context.MainCategories.Select(mc => mc.Id).FirstOrDefault());
         }
 
+        /// <summary>
+        /// Page for <see cref="MainCategory"/> creation.
+        /// </summary>
+        /// <returns>View for <see cref="MainCategory"/> creation.</returns>
         public IActionResult MainCategoryCreate()
         {
             return View();
         }
 
+        /// <summary>
+        /// Page for <see cref="SubCategory"/> creation.
+        /// </summary>
+        /// <returns>View for <see cref="SubCategory"/> creation.</returns>
         public IActionResult SubCategoryCreate()
         {
             ViewData["MainCategories"] = GetMainCategoriesSelectList();
             return View();
         }
 
+        /// <summary>
+        /// Submit newly created MainCategory.
+        /// </summary>
+        /// <param name="mainCategory">Newly created MainCategory</param>
+        /// <returns>Index.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MainCategoryCreate([Bind("Name")] MainCategory mainCategory)
@@ -92,6 +123,11 @@ namespace EverythingShop.WebApp.Controllers
             return View(mainCategory);
         }
 
+        /// <summary>
+        /// Submit newly created SubCategory.
+        /// </summary>
+        /// <param name="subCategory">Newly created SubCategory</param>
+        /// <returns>Index.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubCategoryCreate([Bind("MainCategoryId,Name")] SubCategory subCategory)
@@ -107,6 +143,12 @@ namespace EverythingShop.WebApp.Controllers
             return View(subCategory);
         }
 
+        /// <summary>
+        /// Updates MainCategory with <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">MainCategory ID to update</param>
+        /// <param name="mainCategory">Updated <see cref="MainCategory"/></param>
+        /// <returns>Index</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MainCategoryEdit(int id, [Bind("Id,Name")] MainCategory mainCategory)
@@ -136,6 +178,12 @@ namespace EverythingShop.WebApp.Controllers
             return RedirectToAction(nameof(MainCategoryDetails), new { id });
         }
 
+        /// <summary>
+        /// Updates SubCategory with <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">SubCategory to update</param>
+        /// <param name="mainCategory">Updated <see cref="SubCategory"/></param>
+        /// <returns>Index</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubCategoryEdit(int id, [Bind("Id,MainCategoryId,Name")] SubCategory subCategory)
@@ -165,6 +213,11 @@ namespace EverythingShop.WebApp.Controllers
             return RedirectToAction(nameof(SubCategoryDetails), new { id });
         }
 
+        /// <summary>
+        /// Delete MainCategory confirmation.
+        /// </summary>
+        /// <param name="id">MainCategory ID</param>
+        /// <returns>Details</returns>
         public async Task<IActionResult> MainCategoryDelete(int? id)
         {
             if (!id.HasValue)
@@ -179,6 +232,11 @@ namespace EverythingShop.WebApp.Controllers
             return View("Delete", mainCategory);
         }
 
+        /// <summary>
+        /// Delete SubCategory confirmation.
+        /// </summary>
+        /// <param name="id">SubCategory ID</param>
+        /// <returns>Details</returns>
         public async Task<IActionResult> SubCategoryDelete(int? id)
         {
             if (!id.HasValue)
@@ -193,6 +251,11 @@ namespace EverythingShop.WebApp.Controllers
             return View("Delete", subCategory);
         }
 
+        /// <summary>
+        /// Delete SubCategory confirmation.
+        /// </summary>
+        /// <param name="id">SubCategory ID</param>
+        /// <returns>Details</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id, bool? isMainCategory)

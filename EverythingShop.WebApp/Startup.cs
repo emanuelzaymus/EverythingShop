@@ -9,14 +9,22 @@ namespace EverythingShop.WebApp
 {
     public class Startup
     {
+        /// <summary>
+        /// Startup constructor.
+        /// </summary>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary> 
+        /// Application configuration. 
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime.
+        /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<UserOrdersService>();
@@ -24,7 +32,9 @@ namespace EverythingShop.WebApp
             services.AddRazorPages();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime.
+        /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -34,7 +44,7 @@ namespace EverythingShop.WebApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // The default HSTS value is 30 days.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

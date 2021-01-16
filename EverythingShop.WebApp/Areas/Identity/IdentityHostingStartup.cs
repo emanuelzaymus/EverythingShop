@@ -9,8 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 [assembly: HostingStartup(typeof(EverythingShop.WebApp.Areas.Identity.IdentityHostingStartup))]
 namespace EverythingShop.WebApp.Areas.Identity
 {
+    /// <summary>
+    /// Startup for hosting Identity.
+    /// </summary>
     public class IdentityHostingStartup : IHostingStartup
     {
+        /// <summary>
+        /// Basic configure method.
+        /// </summary>
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) =>

@@ -9,6 +9,9 @@ namespace EverythingShop.WebApp
 {
     public class Program
     {
+        /// <summary>
+        /// Entry point of the application.
+        /// </summary>
         public static void Main(string[] args)
         {
             IHost host = CreateHostBuilder(args).Build();
@@ -31,6 +34,9 @@ namespace EverythingShop.WebApp
             host.Run();
         }
 
+        /// <summary>
+        /// Creates host builder.
+        /// </summary>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
